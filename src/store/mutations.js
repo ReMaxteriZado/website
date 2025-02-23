@@ -1,6 +1,5 @@
 export default {
   setUser(state, user) {
-    console.log('🚀 ~ mutations.js:3 ~ user:', user)
     state.user = user
   },
   setToken(state, token) {

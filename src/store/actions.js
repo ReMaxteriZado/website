@@ -17,8 +17,7 @@ export default {
     return localStorage.getItem('token')
   },
   async login({ commit }, credentials) {
-    const { data, status } = await api.post('login', credentials)
-    console.log('🚀 ~ actions.js:15 ~ status:', status)
+    const { data } = await api.post('login', credentials)
     commit('setToken', data.token)
   },
   async logout({ commit }) {
@@ -34,10 +33,9 @@ export default {
     router.push({ name: 'Login' })
   },
   async getUser({ commit }) {
-    const response = await api.get('user', {
+    const { data } = await api.get('user', {
       headers: { Authorization: getAuthorizationToken() },
     })
-    console.log('🚀 ~ actions.js:40 ~ response:', response)
-    commit('setUser', response.data)
+    commit('setUser', data)
   },
 }
