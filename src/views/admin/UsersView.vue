@@ -1,30 +1,19 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import Card from 'primevue/card'
 import DataTable from '@/components/DataTable.vue'
 import Column from 'primevue/column'
 import Button from 'primevue/button'
 
-const registers = ref([
-  {
-    code: '0001',
-    name: 'Product 1',
-    category: 'Category 1',
-    quantity: 10,
-  },
-  {
-    code: '0002',
-    name: 'Product 2',
-    category: 'Category 2',
-    quantity: 20,
-  },
-  {
-    code: '0003',
-    name: 'Product 3',
-    category: 'Category 3',
-    quantity: 30,
-  },
-])
+// Api
+import { getUsers } from '@/api/users'
+
+const registers = ref([])
+
+onMounted(async () => {
+  const users = await getUsers()
+  registers.value = users
+})
 </script>
 
 <template>
@@ -37,7 +26,7 @@ const registers = ref([
 
         <template #columns>
           <Column header="Nombre" field="name"></Column>
-          <Column header="Categoría" field="category"></Column>
+          <Column header="Email" field="email"></Column>
         </template>
 
         <template #row-actions>

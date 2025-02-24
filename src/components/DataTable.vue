@@ -57,7 +57,7 @@ const props = defineProps({
   },
   currentPageReportTemplate: {
     type: String,
-    default: '{first} a {last} de {totalRecords}',
+    default: '{first} a {last}',
   },
   showSearch: {
     type: Boolean,
@@ -115,6 +115,7 @@ const search = ref('')
     padding-left: 0;
     padding-right: 0;
     padding-top: 0;
+    padding-bottom: var(--p-card-body-padding);
   }
 }
 </style>

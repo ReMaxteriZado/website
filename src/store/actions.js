@@ -1,41 +1,47 @@
-import axios from 'axios'
+import api, { setAuthorizationToken } from '@/configuration/axios'
 import router from '@/router'
-
-const api = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-})
-
-function getAuthorizationToken() {
-  return `Bearer ${localStorage.getItem('token')}`
-}
+import { useToast } from 'primevue/usetoast'
 
 export default {
-  getAuthorizationToken() {
-    return localStorage.getItem('token')
-  },
-  async login({ commit }, credentials) {
-    const { data } = await api.post('login', credentials)
-    commit('setToken', data.token)
+  // eslint-disable-next-line no-empty-pattern
+  async login({}, credentials) {
+    const response = await api.post('login', credentials)
+
+    if (response.status == 200) {
+      localStorage.setItem('token', response.data.token)
+      setAuthorizationToken()
+    }
   },
   async logout({ commit }) {
-    await api.post(
-      'logout',
-      {},
-      {
-        headers: { Authorization: getAuthorizationToken() },
-      },
-    )
+    await api.post('logout', {})
     commit('clearAuth')
 
     router.push({ name: 'Login' })
   },
-  async getUser({ commit }) {
-    const { data } = await api.get('user', {
-      headers: { Authorization: getAuthorizationToken() },
+  async getUser({ commit, dispatch }) {
+    try {
+      const response = await api.get('user')
+
+      if (response.status == 200) {
+        commit('setUser', response.data)
+      } else {
+        dispatch('logout')
+      }
+    } catch (error) {
+      console.error(error)
+      dispatch('logout')
+    }
+  },
+  showToast() {
+    const toast = useToast()
+
+    toast.add({
+      severity: 'success',
+      summary: 'Users Loaded',
+      detail: 'Successfully fetched user data!',
+      life: 3000,
     })
-    commit('setUser', data)
   },
 }
+
+export { setAuthorizationToken }
