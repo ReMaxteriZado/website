@@ -1,9 +1,11 @@
 <script setup>
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import Card from 'primevue/card'
 import SplitButton from 'primevue/splitbutton'
 
 const store = useStore()
+const router = useRouter()
 
 const props = defineProps({
   user: Object,
@@ -13,7 +15,9 @@ const items = [
   {
     label: 'Volver a la web',
     icon: 'pi pi-home',
-    command: () => {},
+    command: () => {
+      router.push({ name: 'Inicio' })
+    },
   },
   {
     label: 'Cerrar sesión',

@@ -1,7 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
-import DashboardView from '@/views/DashboardView.vue'
+import AdminView from '@/views/AdminView.vue'
+
+// Admin routes
+import DashboardView from '@/views/admin/DashboardView.vue'
+import UsersView from '@/views/admin/UsersView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,7 +20,23 @@ const router = createRouter({
       name: 'Login',
       component: LoginView,
     },
-    { path: '/dashboard', component: DashboardView, meta: { requiresAuth: true } },
+    {
+      path: '/admin',
+      component: AdminView,
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: '/dashboard',
+          name: 'Dashboard',
+          component: DashboardView,
+        },
+        {
+          path: '/users',
+          name: 'Usuarios',
+          component: UsersView,
+        },
+      ],
+    },
   ],
 })
 

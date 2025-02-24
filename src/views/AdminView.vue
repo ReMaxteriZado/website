@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
+import { RouterView } from 'vue-router'
 import LogoImage from '@/components/LogoImage.vue'
 import NavbarContent from '@/components/NavbarContent.vue'
 import SidebarContent from '@/components/SidebarContent.vue'
@@ -25,7 +26,9 @@ const user = computed(() => store.state.user)
     <div class="sidebar">
       <SidebarContent />
     </div>
-    <div class="content"></div>
+    <div class="content">
+      <RouterView />
+    </div>
   </div>
 </template>
 

@@ -1,12 +1,25 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import Card from 'primevue/card'
 import Menu from 'primevue/menu'
 
+const router = useRouter()
+
 const items = ref([
+  {
+    label: 'Dashboard',
+    icon: 'pi pi-home',
+    command: () => {
+      router.push({ name: 'Dashboard' })
+    },
+  },
   {
     label: 'Usuarios',
     icon: 'pi pi-users',
+    command: () => {
+      router.push({ name: 'Usuarios' })
+    },
   },
 ])
 
