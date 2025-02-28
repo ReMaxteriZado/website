@@ -1,6 +1,5 @@
 import api, { setAuthorizationToken } from '@/configuration/axios'
 import router from '@/router'
-import { useToast } from 'primevue/usetoast'
 
 export default {
   // eslint-disable-next-line no-empty-pattern
@@ -31,16 +30,6 @@ export default {
       console.error(error)
       dispatch('logout')
     }
-  },
-  showToast() {
-    const toast = useToast()
-
-    toast.add({
-      severity: 'success',
-      summary: 'Users Loaded',
-      detail: 'Successfully fetched user data!',
-      life: 3000,
-    })
   },
 }
 

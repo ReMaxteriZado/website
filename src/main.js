@@ -6,6 +6,7 @@ import '@/assets/styles/app.scss'
 import PrimeVue from 'primevue/config'
 import Tooltip from 'primevue/tooltip'
 import ToastService from 'primevue/toastservice'
+import ConfirmationService from 'primevue/confirmationservice'
 import Aura from '@primeuix/themes/aura'
 import 'primeflex/primeflex.css'
 import 'primeicons/primeicons.css'
@@ -26,6 +27,7 @@ app.use(PrimeVue, {
   },
 })
 app.use(ToastService)
+app.use(ConfirmationService)
 
 app.mount('#app')
 

@@ -1,8 +1,9 @@
 <script setup>
 import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
-import Toast from 'primevue/toast'
 import { setAuthorizationToken } from '@/configuration/axios'
+import Toast from 'primevue/toast'
+import ConfirmPopup from 'primevue/confirmpopup'
 
 onMounted(() => {
   setAuthorizationToken()
@@ -11,6 +12,8 @@ onMounted(() => {
 
 <template>
   <Toast />
+  <ConfirmPopup />
+
   <RouterView />
 </template>
 
