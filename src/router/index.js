@@ -21,7 +21,6 @@ const router = createRouter({
       component: LoginView,
     },
     {
-      path: '/admin',
       component: AdminView,
       meta: { requiresAuth: true },
       children: [
@@ -43,8 +42,11 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
 
-  if (to.meta.requiresAuth && !token) {
-    next('/')
+  console.log('🚀 ~ index.js:46 ~ to.name:', to.name)
+  if (to.name === 'Login' && token) {
+    next({ name: 'Dashboard' })
+  } else if (to.meta.requiresAuth && !token) {
+    next({ name: 'Login' })
   } else {
     next()
   }

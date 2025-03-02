@@ -14,6 +14,7 @@ import { createUser, editUser } from '@/api/users'
 const emits = defineEmits(['register:saved'])
 
 const store = useStore()
+const editingUserIsLoggedUser = computed(() => loggedUser.value.id === id?.value)
 const loggedUser = computed(() => store.state.user)
 const toast = useToast()
 const visible = ref(false)
@@ -70,6 +71,10 @@ async function save() {
     })
 
     emits('register:saved')
+
+    if (editingUserIsLoggedUser.value) {
+      store.dispatch('getUser')
+    }
   } else {
     loading.value = false
     errors.value = response.data
@@ -107,7 +112,7 @@ defineExpose({
           v-model="email"
           placeholder="Email"
           class="w-full mb-1"
-          :disabled="id === loggedUser.id"
+          :disabled="editingUserIsLoggedUser"
         />
         <div v-if="errors?.email" class="text-sm text-red-600">{{ errors.email[0] }}</div>
       </div>

@@ -15,8 +15,6 @@ const router = useRouter()
 
 <style lang="scss" scoped>
 .custom-card {
-  box-shadow: $box-shadow;
-
   :deep(.p-card-body) {
     padding: 0.5rem;
     height: 100%;

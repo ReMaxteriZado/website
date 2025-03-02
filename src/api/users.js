@@ -1,9 +1,13 @@
 import api from '@/configuration/axios'
 
 // Get users
-async function getUsers() {
+async function getUsers(params = null) {
   try {
-    const response = await api.get('/users')
+    const response = await api.post('/paginated-users', {
+      filter: params?.filter,
+      pagination: params?.pagination,
+    })
+
     return response.data
   } catch (error) {
     console.error('Error fetching users:', error)

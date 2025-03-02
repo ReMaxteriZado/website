@@ -1,18 +1,11 @@
-import api, { setAuthorizationToken } from '@/configuration/axios'
+import api from '@/configuration/axios'
 import router from '@/router'
 
 export default {
-  // eslint-disable-next-line no-empty-pattern
-  async login({}, credentials) {
-    const response = await api.post('login', credentials)
-
-    if (response.status == 200) {
-      localStorage.setItem('token', response.data.token)
-      setAuthorizationToken()
+  async logout({ commit }, tokenExpired) {
+    if (!tokenExpired) {
+      await api.post('logout', {})
     }
-  },
-  async logout({ commit }) {
-    await api.post('logout', {})
     commit('clearAuth')
 
     router.push({ name: 'Login' })
@@ -24,13 +17,17 @@ export default {
       if (response.status == 200) {
         commit('setUser', response.data)
       } else {
-        dispatch('logout')
+        dispatch('logout', false)
       }
     } catch (error) {
       console.error(error)
-      dispatch('logout')
+      dispatch('logout', true)
+    }
+  },
+  mustShrinkAdminView({ state }) {
+    // Check if the width of the window is less than 992px
+    if (window.innerWidth < 992) {
+      state.shrinkAdminView = true
     }
   },
 }
-
-export { setAuthorizationToken }

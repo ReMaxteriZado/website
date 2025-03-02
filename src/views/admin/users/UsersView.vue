@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useConfirm } from 'primevue/useconfirm'
 import { useStore } from 'vuex'
 import { useToast } from 'primevue/usetoast'
@@ -16,18 +16,8 @@ const store = useStore()
 const confirm = useConfirm()
 const toast = useToast()
 const loggedUser = computed(() => store.state.user)
-const registers = ref([])
+const dataTableRef = ref(null)
 const usersFormRef = ref(null)
-
-onMounted(async () => {
-  handleGetUsers()
-})
-
-function handleGetUsers() {
-  getUsers().then((users) => {
-    registers.value = users
-  })
-}
 
 function addUser() {
   usersFormRef.value.loadForm()
@@ -55,7 +45,7 @@ function handleDeleteUser(event, user) {
       const response = await deleteUser(user)
 
       if (response.status === 200) {
-        handleGetUsers()
+        dataTableRef.value.handleSearch()
 
         toast.add({
           severity: 'success',
@@ -76,7 +66,7 @@ function handleDeleteUser(event, user) {
 }
 
 function onRegisterSaved() {
-  handleGetUsers()
+  dataTableRef.value.handleSearch()
 }
 </script>
 
@@ -84,7 +74,7 @@ function onRegisterSaved() {
   <!-- Table content -->
   <Card>
     <template #content>
-      <DataTable :title="'Usuarios'" :value="registers">
+      <DataTable ref="dataTableRef" :title="'Usuarios'" :searchFunction="getUsers">
         <template #header-actions>
           <Button icon="pi pi-plus" label="Añadir usuario" outlined @click="addUser" />
         </template>

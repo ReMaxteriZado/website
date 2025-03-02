@@ -1,17 +1,19 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { watchDebounced } from '@vueuse/core'
 import InputGroup from 'primevue/inputgroup'
 import InputGroupAddon from 'primevue/inputgroupaddon'
 import InputText from 'primevue/inputtext'
 import DataTable from 'primevue/datatable'
+import Paginator from 'primevue/paginator'
 
 const props = defineProps({
   title: {
     type: String,
     required: true,
   },
-  value: {
-    type: Array,
+  searchFunction: {
+    type: Function,
     required: true,
   },
   rows: {
@@ -52,12 +54,11 @@ const props = defineProps({
   },
   paginatorTemplate: {
     type: String,
-    default:
-      'FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink RowsPerPageDropdown',
+    default: 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown',
   },
-  currentPageReportTemplate: {
-    type: String,
-    default: '{first} a {last}',
+  alwaysShowPaginator: {
+    type: Boolean,
+    default: true,
   },
   showSearch: {
     type: Boolean,
@@ -65,24 +66,62 @@ const props = defineProps({
   },
 })
 
+const registers = ref([])
+const totalRecords = ref(0)
 const search = ref('')
+const loading = ref(false)
+const lastPagination = ref({
+  page: 0,
+  rows: props.rows,
+})
+
+onMounted(() => {
+  handleSearch()
+})
+
+async function handleSearch() {
+  loading.value = true
+
+  const response = await props.searchFunction({
+    filter: search.value,
+    pagination: lastPagination.value,
+  })
+
+  registers.value = response.registers
+  totalRecords.value = response.total
+
+  loading.value = false
+}
+
+function onPageChange(event) {
+  lastPagination.value = event
+  handleSearch()
+}
+
+watchDebounced(
+  search,
+  () => {
+    handleSearch()
+  },
+  { debounce: 300 },
+)
+
+defineExpose({
+  handleSearch,
+})
 </script>
 
 <template>
   <DataTable
     class="custom-datatable"
-    :value="props.value"
-    :rows="props.rows"
-    :rowsPerPageOptions="props.rowsPerPageOptions"
+    :loading="loading"
+    :value="registers"
     :stripedRows="props.stripedRows"
-    :paginator="props.paginator"
     :removableSort="props.removableSort"
     :scrollable="props.scrollable"
     :scrollHeight="props.scrollHeight"
     :resizableColumns="props.resizableColumns"
     :columnResizeMode="props.columnResizeMode"
-    :paginatorTemplate="props.paginatorTemplate"
-    :currentPageReportTemplate="props.currentPageReportTemplate"
   >
     <template #header v-if="title || showSearch">
       <div class="flex flex-wrap align-items-center justify-content-between gap-2">
@@ -104,9 +143,30 @@ const search = ref('')
       </div>
     </template>
 
+    <template #empty>
+      <div class="text-center">
+        <span>No hay registros</span>
+      </div>
+    </template>
+
+    <template #loading>
+      <div class="text-center">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+      </div>
+    </template>
+
     <slot name="columns"></slot>
     <slot name="row-actions"></slot>
   </DataTable>
+  <Paginator
+    v-if="props.paginator"
+    :totalRecords="totalRecords"
+    :rows="props.rows"
+    :rowsPerPageOptions="props.rowsPerPageOptions"
+    :template="props.paginatorTemplate"
+    :currentPageReportTemplate="props.currentPageReportTemplate"
+    @page="onPageChange"
+  ></Paginator>
 </template>
 
 <style scoped lang="scss">

@@ -5,6 +5,7 @@ import { RouterView } from 'vue-router'
 import LogoImage from '@/components/LogoImage.vue'
 import NavbarContent from '@/components/NavbarContent.vue'
 import SidebarContent from '@/components/SidebarContent.vue'
+import OverlayContent from '@/components/OverlayContent.vue'
 
 const store = useStore()
 
@@ -13,17 +14,22 @@ onMounted(() => {
 })
 
 const user = computed(() => store.state.user)
+
+const adminSidebarVisible = computed(() => store.state.adminSidebarVisible)
+const shrinkAdminView = computed(() => store.state.shrinkAdminView)
 </script>
 
 <template>
   <div v-if="user" class="container">
+    <OverlayContent />
+
     <div class="navbar">
       <NavbarContent :user="user" />
     </div>
     <div class="logo">
       <LogoImage />
     </div>
-    <div class="sidebar">
+    <div class="sidebar" :class="[shrinkAdminView && adminSidebarVisible ? 'show' : '']">
       <SidebarContent />
     </div>
     <div class="content">
@@ -33,8 +39,6 @@ const user = computed(() => store.state.user)
 </template>
 
 <style lang="scss" scoped>
-$gap: 0.75rem;
-
 .container {
   height: 100vh;
   display: grid;
@@ -46,21 +50,61 @@ $gap: 0.75rem;
   grid-template-areas:
     'logo navbar'
     'sidebar content';
+
+  .navbar {
+    grid-area: navbar;
+  }
+
+  .logo {
+    grid-area: logo;
+  }
+
+  .sidebar {
+    grid-area: sidebar;
+  }
+
+  .content {
+    grid-area: content;
+  }
 }
 
-.navbar {
-  grid-area: navbar;
-}
+@media (max-width: calc($lg - 1px)) {
+  .container {
+    position: relative;
+    height: auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content 1fr;
+    grid-template-areas:
+      'navbar'
+      'content';
 
-.logo {
-  grid-area: logo;
-}
+    .navbar {
+      position: sticky;
+      top: $gap;
+      z-index: $navbar-z-index;
+    }
 
-.sidebar {
-  grid-area: sidebar;
-}
+    .logo {
+      display: none;
+    }
 
-.content {
-  grid-area: content;
+    .sidebar {
+      position: fixed;
+      top: 0.75rem;
+      left: 0.75rem;
+      bottom: 0.75rem;
+      z-index: $sidebar-z-index;
+      transform: translateX(calc(-100% - $gap * 2));
+      transition: all 0.3s ease;
+
+      &.show {
+        transform: translateX(0);
+      }
+    }
+
+    .content {
+      width: calc(100vw - $gap * 2);
+    }
+  }
 }
 </style>
