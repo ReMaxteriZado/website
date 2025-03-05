@@ -7,7 +7,6 @@ export default {
     localStorage.removeItem('token')
   },
   setAdminSidebarVisible(state, visible) {
-    console.log('🚀 ~ mutations.js:10 ~ visible:', visible)
     state.adminSidebarVisible = visible
   },
 }

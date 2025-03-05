@@ -20,7 +20,7 @@ async function handleLogin() {
       localStorage.setItem('token', response.data.token)
       setAuthorizationToken()
 
-      router.push('/dashboard')
+      router.push({ name: 'Dashboard' })
     }
   } catch (error) {
     errors.value = error.response.data.errors
@@ -32,7 +32,7 @@ async function handleLogin() {
   <div class="login-container flex flex-column justify-content-center align-items-center">
     <div class="col-12 flex justify-content-center">
       <RouterLink to="/">
-        <img src="@/assets/images/logo.png" width="120px" alt="Logo" />
+        <img src="@/assets/images/logoClinica.png" width="320px" alt="Logo" />
       </RouterLink>
     </div>
     <div class="col-12 md:col-8 lg:col-4">

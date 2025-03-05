@@ -25,7 +25,7 @@ const router = useRouter()
       .logo-image {
         height: 100%;
         cursor: pointer;
-        background-image: url('@/assets/images/logo.png');
+        background-image: url('@/assets/images/logoClinica.png');
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;

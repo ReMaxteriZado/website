@@ -6,6 +6,7 @@ import LogoImage from '@/components/LogoImage.vue'
 import NavbarContent from '@/components/NavbarContent.vue'
 import SidebarContent from '@/components/SidebarContent.vue'
 import OverlayContent from '@/components/OverlayContent.vue'
+import SwipeArea from '@/components/SwipeArea.vue'
 
 const store = useStore()
 
@@ -22,6 +23,7 @@ const shrinkAdminView = computed(() => store.state.shrinkAdminView)
 <template>
   <div v-if="user" class="container">
     <OverlayContent />
+    <SwipeArea />
 
     <div class="navbar">
       <NavbarContent :user="user" />
