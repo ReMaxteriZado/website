@@ -69,7 +69,6 @@ const props = defineProps({
 const registers = ref([])
 const totalRecords = ref(0)
 const search = ref('')
-const loading = ref(false)
 const lastPagination = ref({
   page: 0,
   rows: props.rows,
@@ -80,8 +79,6 @@ onMounted(() => {
 })
 
 async function handleSearch() {
-  loading.value = true
-
   const response = await props.searchFunction({
     filter: search.value,
     pagination: lastPagination.value,
@@ -89,8 +86,6 @@ async function handleSearch() {
 
   registers.value = response.registers
   totalRecords.value = response.total
-
-  loading.value = false
 }
 
 function onPageChange(event) {
@@ -114,7 +109,6 @@ defineExpose({
 <template>
   <DataTable
     class="custom-datatable"
-    :loading="loading"
     :value="registers"
     :stripedRows="props.stripedRows"
     :removableSort="props.removableSort"
@@ -146,12 +140,6 @@ defineExpose({
     <template #empty>
       <div class="text-center">
         <span>No hay registros</span>
-      </div>
-    </template>
-
-    <template #loading>
-      <div class="text-center">
-        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
       </div>
     </template>
 

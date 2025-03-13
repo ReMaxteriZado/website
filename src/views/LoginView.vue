@@ -11,9 +11,12 @@ const email = ref('')
 const password = ref('')
 const router = useRouter()
 const errors = ref(null)
+const loading = ref(false)
 
 async function handleLogin() {
   try {
+    loading.value = true
+
     const response = await api.post('login', { email: email.value, password: password.value })
 
     if (response.status == 200) {
@@ -23,6 +26,7 @@ async function handleLogin() {
       router.push({ name: 'Dashboard' })
     }
   } catch (error) {
+    loading.value = false
     errors.value = error.response.data.errors
   }
 }
@@ -32,7 +36,7 @@ async function handleLogin() {
   <div class="login-container flex flex-column justify-content-center align-items-center">
     <div class="col-12 flex justify-content-center">
       <RouterLink to="/">
-        <img src="@/assets/images/logoClinica.png" width="320px" alt="Logo" />
+        <img src="@/assets/images/logo.png" width="150px" alt="Logo" />
       </RouterLink>
     </div>
     <div class="col-12 md:col-8 lg:col-4">
@@ -54,7 +58,12 @@ async function handleLogin() {
                 {{ errors.password[0] }}
               </div>
             </div>
-            <Button label="Iniciar sesión" @click="handleLogin" />
+            <Button
+              :icon="loading ? 'pi pi-spin pi-spinner' : ''"
+              label="Iniciar sesión"
+              :disabled="loading"
+              @click="handleLogin"
+            />
           </div>
         </template>
       </Card>

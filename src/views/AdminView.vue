@@ -2,11 +2,11 @@
 import { computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { RouterView } from 'vue-router'
-import LogoImage from '@/components/LogoImage.vue'
-import NavbarContent from '@/components/NavbarContent.vue'
-import SidebarContent from '@/components/SidebarContent.vue'
-import OverlayContent from '@/components/OverlayContent.vue'
-import SwipeArea from '@/components/SwipeArea.vue'
+import LogoImage from '@/components/admin/LogoImage.vue'
+import NavbarContent from '@/components/admin/NavbarContent.vue'
+import SidebarContent from '@/components/admin/SidebarContent.vue'
+import OverlayContent from '@/components/admin/OverlayContent.vue'
+import SwipeArea from '@/components/admin/SwipeArea.vue'
 
 const store = useStore()
 

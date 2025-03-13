@@ -1,3 +1,7 @@
+<script setup>
+import { RouterView } from 'vue-router'
+</script>
+
 <template>
   <main>
     <div class="flex gap-3">
@@ -11,5 +15,7 @@
         <RouterLink class="no-underline" :to="{ name: 'Dashboard' }">Dashboard</RouterLink>
       </div>
     </div>
+
+    <RouterView />
   </main>
 </template>
