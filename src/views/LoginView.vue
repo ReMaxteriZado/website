@@ -45,7 +45,7 @@ async function handleLogin() {
           <h3 class="my-2">Iniciar sesión</h3>
         </template>
         <template #content>
-          <div class="w-full flex align-items-start flex-column gap-3">
+          <div class="w-full flex align-items-start flex-column gap-3" @keydown.enter="handleLogin">
             <div class="flex flex-column gap-1 w-full">
               <label for="email">Correo electrónico</label>
               <InputText id="email" v-model="email" class="w-full" />

@@ -10,8 +10,14 @@ import SwipeArea from '@/components/admin/SwipeArea.vue'
 
 const store = useStore()
 
-onMounted(() => {
-  store.dispatch('getUser')
+onMounted(async () => {
+  const response = await store.dispatch('getUser')
+
+  if (response.status == 200) {
+    store.commit('setUser', response.data)
+  } else {
+    store.dispatch('logout', false)
+  }
 })
 
 const user = computed(() => store.state.user)
@@ -23,7 +29,7 @@ const shrinkAdminView = computed(() => store.state.shrinkAdminView)
 <template>
   <div v-if="user" class="container">
     <OverlayContent />
-    <SwipeArea />
+    <SwipeArea class="md:hidden" />
 
     <div class="navbar">
       <NavbarContent :user="user" />

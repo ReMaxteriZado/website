@@ -2,26 +2,17 @@ import api from '@/configuration/axios'
 import router from '@/router'
 
 export default {
-  async logout({ commit }, tokenExpired) {
-    if (!tokenExpired) {
-      await api.post('logout', {})
-    }
-    commit('clearAuth')
+  async logout({ commit }) {
+    await api.post('logout')
 
+    commit('clearAuth')
     router.push({ name: 'Login' })
   },
-  async getUser({ commit, dispatch }) {
+  async getUser() {
     try {
-      const response = await api.get('user')
-
-      if (response.status == 200) {
-        commit('setUser', response.data)
-      } else {
-        dispatch('logout', false)
-      }
+      return await api.get('user')
     } catch (error) {
       console.error(error)
-      dispatch('logout', true)
     }
   },
   mustShrinkAdminView({ state }) {

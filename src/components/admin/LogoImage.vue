@@ -1,14 +1,13 @@
 <script setup>
-import { useRouter } from 'vue-router'
 import Card from 'primevue/card'
-
-const router = useRouter()
 </script>
 
 <template>
   <Card class="custom-card h-full w-full">
     <template #content>
-      <div class="logo-image" @click="router.push('/')"></div>
+      <RouterLink :to="{ name: 'Inicio' }">
+        <div class="logo-image"></div>
+      </RouterLink>
     </template>
   </Card>
 </template>

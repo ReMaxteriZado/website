@@ -72,8 +72,16 @@ async function save() {
 
     emits('register:saved')
 
+    console.log(
+      '🚀 ~ UsersForm.vue ~ editingUserIsLoggedUser.value:',
+      editingUserIsLoggedUser.value,
+    )
     if (editingUserIsLoggedUser.value) {
-      store.dispatch('getUser')
+      const response = await store.dispatch('getUser')
+
+      if (response.status == 200) {
+        store.commit('setUser', response.data)
+      }
     }
   } else {
     loading.value = false
@@ -102,7 +110,7 @@ defineExpose({
     :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
   >
     <!-- Form -->
-    <div class="grid">
+    <div class="grid" @keydown.enter="save">
       <div class="col-12 md:col-6">
         <InputText v-model="name" placeholder="Nombre" class="w-full mb-1" />
         <div v-if="errors?.name" class="text-sm text-red-600">{{ errors.name[0] }}</div>
