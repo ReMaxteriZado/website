@@ -26,7 +26,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 main {
-  cursor: none;
   background-color: black;
 }
 </style>
