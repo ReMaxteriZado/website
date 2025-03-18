@@ -90,7 +90,7 @@ onMounted(() => {
   width: 40px;
   height: 40px;
   border-radius: 100%;
-  border: 3px solid var(--p-primary-color);
+  border: 2px solid var(--p-primary-color);
   transition: all 0.4s ease-out;
   position: fixed;
   pointer-events: none;
