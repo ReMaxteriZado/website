@@ -36,13 +36,13 @@ onMounted(() => {
       const gap = 20
 
       const itemBounding = item.getBoundingClientRect()
-      outerCursor.style.transition = `all .75s ease`
       outerCursor.style.width = `${itemBounding.width + gap}px`
       outerCursor.style.height = `${itemBounding.height + gap}px`
       outerCursor.style.left = `${itemBounding.left - gap / 2}px`
       outerCursor.style.top = `${itemBounding.top - gap / 2}px`
-      outerCursor.style.transform = `unset`
-      outerCursor.style.borderRadius = `${window.getComputedStyle(item).borderRadius}`
+
+      const elementBorderRadius = window.getComputedStyle(item).borderRadius
+      outerCursor.style.borderRadius = `calc(${elementBorderRadius == '0px' ? '4px' : elementBorderRadius} + 4px)`
     })
 
     item.addEventListener('mouseleave', () => {
@@ -55,7 +55,6 @@ onMounted(() => {
     outerCursor.style.width = '40px'
     outerCursor.style.height = '40px'
     outerCursor.style.borderRadius = '100%'
-    outerCursor.style.transition = `all 200ms ease-out`
   }
 })
 </script>
@@ -70,7 +69,7 @@ onMounted(() => {
   width: 10px;
   height: 10px;
   border-radius: 100%;
-  background-color: $primary;
+  background-color: var(--p-primary-color);
   opacity: 0.8;
   position: fixed;
   transform: translate(-50%, -50%);
@@ -79,7 +78,7 @@ onMounted(() => {
     width 0.3s,
     height 0.3s,
     opacity 0.3s;
-  z-index: 95;
+  z-index: 1;
 
   &.mousedown {
     width: 50px;
@@ -91,16 +90,22 @@ onMounted(() => {
   width: 40px;
   height: 40px;
   border-radius: 100%;
-  border: 1px solid $primary;
-  transition: all 200ms ease-out;
+  border: 3px solid var(--p-primary-color);
+  transition: all 0.4s ease-out;
   position: fixed;
   pointer-events: none;
   transform: translate(-50%, -50%);
-  z-index: 95;
+  z-index: 0;
 
   &.mousedown {
     width: 50px;
     height: 50px;
+  }
+
+  &.hovering {
+    transform: unset;
+    background-color: var(--p-primary-color);
+    opacity: 0.2;
   }
 }
 </style>

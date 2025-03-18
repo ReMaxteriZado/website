@@ -15,12 +15,12 @@ const links = computed(() => {
 </script>
 
 <template>
-  <nav class="flex gap-3">
+  <nav class="flex gap-5">
     <template v-for="link in links" :key="link.name">
       <RouterLink
         v-if="link.show"
         :to="{ name: link.name }"
-        class="bg-white border-solid border-primary border-1 border-round no-underline px-3 py-2"
+        class="hover-element text-primary no-underline text-lg"
       >
         {{ link.label }}
       </RouterLink>
@@ -33,5 +33,6 @@ nav {
   position: fixed;
   top: 1rem;
   right: 1rem;
+  z-index: 1;
 }
 </style>

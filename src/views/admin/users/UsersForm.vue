@@ -72,10 +72,6 @@ async function save() {
 
     emits('register:saved')
 
-    console.log(
-      '🚀 ~ UsersForm.vue ~ editingUserIsLoggedUser.value:',
-      editingUserIsLoggedUser.value,
-    )
     if (editingUserIsLoggedUser.value) {
       const response = await store.dispatch('getUser')
 

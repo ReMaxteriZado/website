@@ -16,16 +16,23 @@ onMounted(() => {
 
 <template>
   <main>
-    <FollowCursor />
-    <NavbarComponent />
-    <HeaderComponent />
+    <div class="content">
+      <FollowCursor />
+      <NavbarComponent />
+      <HeaderComponent />
 
-    <RouterView />
+      <RouterView />
+    </div>
   </main>
 </template>
 
 <style lang="scss" scoped>
 main {
   background-color: black;
+
+  .content {
+    position: relative;
+    z-index: 1;
+  }
 }
 </style>
