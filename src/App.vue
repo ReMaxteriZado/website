@@ -10,7 +10,6 @@ const store = useStore()
 
 onMounted(() => {
   store.dispatch('mustShrinkAdminView')
-
   setAuthorizationToken()
 })
 </script>

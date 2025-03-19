@@ -42,9 +42,17 @@ onMounted(() => {
     })
 
     text.addEventListener('mouseup', () => {
+      resetRotation()
+    })
+
+    text.addEventListener('mouseleave', () => {
+      resetRotation()
+    })
+
+    function resetRotation() {
       clearInterval(interval)
       rotationMultiplier = 1
-    })
+    }
 
     function increaseRotation() {
       let currentScroll = window.scrollY
