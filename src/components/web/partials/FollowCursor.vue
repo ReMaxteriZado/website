@@ -1,6 +1,10 @@
 <script setup>
 // Move cursor to follow mouse
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
+const isTouchableDevice = computed(() => store.state.isTouchableDevice)
 
 onMounted(() => {
   var outerCursor = document.querySelector('.outer-cursor')
@@ -32,8 +36,10 @@ onMounted(() => {
 
   cursorHover.forEach((item) => {
     item.addEventListener('mouseenter', () => {
+      const fitElement = item.classList.contains('hover-element-fit')
+
       outerCursor.classList.add('hovering')
-      const gap = 20
+      const gap = fitElement ? 0 : 20
 
       const itemBounding = item.getBoundingClientRect()
       outerCursor.style.width = `${itemBounding.width + gap}px`
@@ -60,8 +66,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="outer-cursor d-none d-xl-block"></div>
-  <div class="inner-cursor d-none d-xl-block"></div>
+  <template v-if="!isTouchableDevice">
+    <div class="outer-cursor hidden lg:block"></div>
+    <div class="inner-cursor hidden lg:block"></div>
+  </template>
 </template>
 
 <style lang="scss" scoped>
@@ -78,7 +86,7 @@ onMounted(() => {
     width 0.3s,
     height 0.3s,
     opacity 0.3s;
-  z-index: 1;
+  z-index: $inner-cursor-z-index;
 
   &.mousedown {
     width: 50px;
@@ -91,11 +99,11 @@ onMounted(() => {
   height: 40px;
   border-radius: 100%;
   border: 2px solid var(--p-primary-color);
-  transition: all 0.4s ease-out;
+  transition: all 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
   position: fixed;
   pointer-events: none;
   transform: translate(-50%, -50%);
-  z-index: 0;
+  z-index: $outer-cursor-z-index;
 
   &.mousedown {
     width: 50px;

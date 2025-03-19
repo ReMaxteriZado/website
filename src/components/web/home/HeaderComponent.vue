@@ -1,20 +1,13 @@
 <script setup>
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useStore } from 'vuex'
 
+const store = useStore()
+const isTouchableDevice = computed(() => store.state.isTouchableDevice)
 const words = ['FRONTEND', 'DEVELOPER']
 const splittedWords = words.map((word) => word.split(''))
 
-function isTouchableDevice() {
-  return 'ontouchstart' in window || navigator.maxTouchPoints > 0
-}
-
 onMounted(() => {
-  if (isTouchableDevice()) {
-    console.log('This device is touchable.')
-  } else {
-    console.log('This device is not touchable.')
-  }
-
   // Split words into letters
   const letters = words.join('').split('')
 
@@ -69,50 +62,52 @@ onMounted(() => {
 
   const canvas = document.querySelectorAll('canvas')
 
-  canvas.forEach((canva) => {
-    const rect = canva.getBoundingClientRect()
-    const ctx = canva.getContext('2d')
+  setTimeout(() => {
+    canvas.forEach((canva) => {
+      const rect = canva.getBoundingClientRect()
+      const ctx = canva.getContext('2d')
 
-    let painting = false
+      let painting = false
 
-    // Start painting when the mouse is pressed
-    canva.addEventListener('mouseenter', startPosition)
-    // Stop painting when the mouse is released
-    canva.addEventListener('mouseleave', endPosition)
-    // Keep painting while the mouse is moving and pressed
-    canva.addEventListener('mousemove', draw)
+      // Start painting when the mouse is pressed
+      canva.addEventListener('mouseenter', startPosition)
+      // Stop painting when the mouse is released
+      canva.addEventListener('mouseleave', endPosition)
+      // Keep painting while the mouse is moving and pressed
+      canva.addEventListener('mousemove', draw)
 
-    function startPosition(e) {
-      painting = true
-      draw(e) // Draw immediately when mouse is pressed
-    }
+      function startPosition(e) {
+        painting = true
+        draw(e) // Draw immediately when mouse is pressed
+      }
 
-    function endPosition() {
-      painting = false
-      ctx.beginPath() // Reset the path
-    }
+      function endPosition() {
+        painting = false
+        ctx.beginPath() // Reset the path
+      }
 
-    function draw(e) {
-      if (!painting) return
+      function draw(e) {
+        if (!painting) return
 
-      ctx.lineWidth = 100 // Brush size
-      ctx.lineCap = 'round' // Smooth edges
-      ctx.strokeStyle = '#ef4444' // Brush color
+        ctx.lineWidth = 100 // Brush size
+        ctx.lineCap = 'round' // Smooth edges
+        ctx.strokeStyle = '#ef4444' // Brush color
 
-      // Draw line from previous position to the current mouse position
-      ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top)
-      ctx.stroke()
-      ctx.beginPath()
-      ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top)
-    }
-  })
+        // Draw line from previous position to the current mouse position
+        ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top)
+        ctx.stroke()
+        ctx.beginPath()
+        ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top)
+      }
+    })
+  }, 750)
 })
 </script>
 
 <template>
-  <header v-if="!isTouchableDevice()" class="flex flex-column justify-content-center gap-5 pl-5">
+  <header v-if="!isTouchableDevice" class="flex flex-column justify-content-center gap-5 pl-5">
     <template v-for="(word, index) in splittedWords" :key="index">
-      <div class="flex gap-3 border-round-2xl">
+      <div class="word flex gap-3 border-round-2xl">
         <template v-for="(letter, index2) in word" :key="index2">
           <div style="height: 140px">
             <canvas :class="letter" height="160"> </canvas>
@@ -122,9 +117,9 @@ onMounted(() => {
     </template>
   </header>
   <header v-else>
-    <div class="title-containter">
+    <div class="words-containter">
       <template v-for="(word, index) in words" :key="index">
-        <div class="title">{{ word }}</div>
+        <div class="word">{{ word }}</div>
       </template>
     </div>
   </header>
@@ -132,17 +127,46 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 header {
-  position: relative;
   height: 100vh;
-  width: 100vw;
 
-  .title-containter {
+  .word {
+    width: 10rem;
+    &:first-of-type {
+      transform: translateX(-50%);
+      animation: translateA 0.75s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+
+      @keyframes translateA {
+        0% {
+          transform: translateX(-50%);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+    }
+
+    &:last-of-type {
+      transform: translateX(50%);
+      animation: translateB 0.75s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+
+      @keyframes translateB {
+        0% {
+          transform: translateX(50%);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+    }
+  }
+
+  .words-containter {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(-90deg);
 
-    .title {
+    .word {
       font-size: 6rem;
       font-weight: 700;
       color: white;

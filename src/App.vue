@@ -10,6 +10,8 @@ const store = useStore()
 
 onMounted(() => {
   store.dispatch('mustShrinkAdminView')
+  store.dispatch('isTouchableDevice')
+
   setAuthorizationToken()
 })
 </script>

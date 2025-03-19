@@ -21,4 +21,8 @@ export default {
       state.shrinkAdminView = true
     }
   },
+  isTouchableDevice({ state }) {
+    // Check if the device is a touchable device
+    state.isTouchableDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+  },
 }
