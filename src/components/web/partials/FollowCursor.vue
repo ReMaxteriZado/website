@@ -1,10 +1,5 @@
 <script setup>
-// Move cursor to follow mouse
-import { computed, onMounted } from 'vue'
-import { useStore } from 'vuex'
-
-const store = useStore()
-const isTouchableDevice = computed(() => store.state.isTouchableDevice)
+import { onMounted } from 'vue'
 
 onMounted(() => {
   var outerCursor = document.querySelector('.outer-cursor')
@@ -66,10 +61,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <template v-if="!isTouchableDevice">
-    <div class="outer-cursor hidden lg:block"></div>
-    <div class="inner-cursor hidden lg:block"></div>
-  </template>
+  <div class="outer-cursor hidden lg:block"></div>
+  <div class="inner-cursor hidden lg:block"></div>
 </template>
 
 <style lang="scss" scoped>
@@ -114,6 +107,17 @@ onMounted(() => {
     transform: unset;
     background-color: var(--p-primary-color);
     opacity: 0.2;
+    animation: blink 3s ease infinite;
+
+    @keyframes blink {
+      0%,
+      100% {
+        opacity: 0.2;
+      }
+      50% {
+        opacity: 0.4;
+      }
+    }
   }
 }
 </style>

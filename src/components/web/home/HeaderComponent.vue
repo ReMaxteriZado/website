@@ -1,9 +1,6 @@
 <script setup>
-import { computed, onMounted } from 'vue'
-import { useStore } from 'vuex'
+import { onMounted } from 'vue'
 
-const store = useStore()
-const isTouchableDevice = computed(() => store.state.isTouchableDevice)
 const words = ['FRONTEND', 'DEVELOPER']
 const splittedWords = words.map((word) => word.split(''))
 
@@ -105,32 +102,55 @@ onMounted(() => {
 </script>
 
 <template>
-  <header v-if="!isTouchableDevice" class="flex flex-column justify-content-center gap-5 pl-5">
-    <template v-for="(word, index) in splittedWords" :key="index">
-      <div class="word flex gap-3 border-round-2xl">
-        <template v-for="(letter, index2) in word" :key="index2">
-          <div style="height: 140px">
-            <canvas :class="letter" height="160"> </canvas>
-          </div>
+  <header>
+    <div class="non-touchable-header flex-column justify-content-center gap-5 pl-5">
+      <template v-for="(word, index) in splittedWords" :key="index">
+        <div class="word flex gap-3 border-round-2xl">
+          <template v-for="(letter, index2) in word" :key="index2">
+            <div style="height: 140px">
+              <canvas :class="letter" height="160"> </canvas>
+            </div>
+          </template>
+        </div>
+      </template>
+    </div>
+    <div class="touchable-header">
+      <div class="words-containter">
+        <template v-for="(word, index) in words" :key="index">
+          <div class="word">{{ word }}</div>
         </template>
       </div>
-    </template>
-  </header>
-  <header v-else>
-    <div class="words-containter">
-      <template v-for="(word, index) in words" :key="index">
-        <div class="word">{{ word }}</div>
-      </template>
     </div>
   </header>
 </template>
 
 <style lang="scss" scoped>
 header {
-  height: 100vh;
+  .non-touchable-header {
+    display: flex;
+    height: 100vh;
+
+    .word {
+      width: 10rem;
+    }
+  }
+
+  .touchable-header {
+    display: none;
+    height: 100vh;
+  }
+
+  @media (pointer: coarse) {
+    .non-touchable-header {
+      display: none;
+    }
+
+    .touchable-header {
+      display: block;
+    }
+  }
 
   .word {
-    width: 10rem;
     &:first-of-type {
       transform: translateX(-50%);
       animation: translateA 0.75s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;

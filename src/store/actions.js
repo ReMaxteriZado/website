@@ -16,13 +16,8 @@ export default {
     }
   },
   mustShrinkAdminView({ state }) {
-    // Check if the width of the window is less than 992px
     if (window.innerWidth < 992) {
       state.shrinkAdminView = true
     }
-  },
-  isTouchableDevice({ state }) {
-    // Check if the device is a touchable device
-    state.isTouchableDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
   },
 }

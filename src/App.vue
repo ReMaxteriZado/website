@@ -10,7 +10,6 @@ const store = useStore()
 
 onMounted(() => {
   store.dispatch('mustShrinkAdminView')
-  store.dispatch('isTouchableDevice')
 
   setAuthorizationToken()
 })
@@ -19,12 +18,5 @@ onMounted(() => {
 <template>
   <Toast />
   <ConfirmPopup />
-
   <RouterView />
 </template>
-
-<style>
-body {
-  font-family: 'Montserrat', sans-serif;
-}
-</style>
