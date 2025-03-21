@@ -9,6 +9,11 @@ body {
   z-index: $body-z-index;
   font-family: 'Montserrat', sans-serif;
   scroll-behavior: smooth;
+
+  &.loading {
+    height: 100vh;
+    overflow: hidden;
+  }
 }
 
 .p-card {

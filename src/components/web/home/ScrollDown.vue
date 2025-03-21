@@ -35,19 +35,31 @@ onMounted(() => {
     let interval = null
 
     text.addEventListener('mousedown', () => {
-      interval = setInterval(() => {
-        if (rotationMultiplier > 150) return
-        rotationMultiplier += 3
-      }, 50)
+      touchOrMouseDown()
+    })
+
+    text.addEventListener('touchstart', () => {
+      touchOrMouseDown()
     })
 
     text.addEventListener('mouseup', () => {
       resetRotation()
     })
 
+    text.addEventListener('touchend', () => {
+      resetRotation()
+    })
+
     text.addEventListener('mouseleave', () => {
       resetRotation()
     })
+
+    function touchOrMouseDown() {
+      interval = setInterval(() => {
+        if (rotationMultiplier > 50) return
+        rotationMultiplier += 3
+      }, 50)
+    }
 
     function resetRotation() {
       clearInterval(interval)
@@ -103,7 +115,7 @@ $rotating-size: 15px;
     height: 100%;
     border-radius: 100%;
     border: 40px solid;
-    border-color: var(--p-primary-color);
+    border-color: $primary;
   }
 
   .rotating-text {
@@ -130,6 +142,15 @@ $rotating-size: 15px;
         transform-origin: 0 calc(($max-size - $rotating-size) / 2);
       }
     }
+  }
+
+  @media (max-width: $md) {
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  @media (max-width: $xs) {
+    transform: translate(-50%, -10%);
   }
 }
 </style>

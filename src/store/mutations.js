@@ -1,4 +1,7 @@
 export default {
+  setLoaded(state, loaded) {
+    state.loaded = loaded
+  },
   setUser(state, user) {
     state.user = user
   },

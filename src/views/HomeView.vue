@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
 import { useStore } from 'vuex'
 
 import NavbarComponent from '@/components/web/partials/NavbarComponent.vue'
@@ -13,6 +13,22 @@ const store = useStore()
 onMounted(() => {
   store.dispatch('getUser')
 })
+
+watch(
+  () => store.state.loaded,
+  (value) => {
+    if (value) {
+      const loadingPanel = document.querySelector('#loading-panel')
+      loadingPanel.classList.add('loaded')
+
+      setTimeout(() => {
+        const body = document.querySelector('body')
+        body.classList.remove('loading')
+      }, 1400)
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>

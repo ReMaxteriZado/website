@@ -5,8 +5,18 @@
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ReMaxteriZado</title>
+
+    <link href="/loading.css" rel="stylesheet" />
   </head>
-  <body>
+  <body class="loading">
+    <!-- Loading panel -->
+    <div id="loading-panel">
+      <div class="section top-section"></div>
+      <div class="line"></div>
+      <div class="section bottom-section"></div>
+    </div>
+
+    <!-- App content -->
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>

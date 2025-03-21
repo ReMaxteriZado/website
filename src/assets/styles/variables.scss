@@ -1,4 +1,5 @@
 // Generic variables
+$primary: var(--p-primary-color);
 $gap: 0.75rem;
 $box-shadow:
   0.7px 1.1px 2.2px rgba(0, 0, 0, 0.02),
@@ -17,7 +18,23 @@ $inner-cursor-z-index: 1002;
 $outer-cursor-z-index: 1000;
 
 // Media queries breakpoints
+$xs: 400px;
 $sm: 576px;
 $md: 768px;
 $lg: 992px;
 $xl: 1200px;
+
+@media (min-width: $xs) {
+}
+
+@media (min-width: $sm) {
+}
+
+@media (min-width: $md) {
+}
+
+@media (min-width: $lg) {
+}
+
+@media (min-width: $xl) {
+}

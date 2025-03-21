@@ -70,7 +70,7 @@ onMounted(() => {
   width: 10px;
   height: 10px;
   border-radius: 100%;
-  background-color: var(--p-primary-color);
+  background-color: $primary;
   opacity: 0.8;
   position: fixed;
   transform: translate(-50%, -50%);
@@ -91,7 +91,7 @@ onMounted(() => {
   width: 40px;
   height: 40px;
   border-radius: 100%;
-  border: 2px solid var(--p-primary-color);
+  border: 2px solid $primary;
   transition: all 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
   position: fixed;
   pointer-events: none;
@@ -105,7 +105,7 @@ onMounted(() => {
 
   &.hovering {
     transform: unset;
-    background-color: var(--p-primary-color);
+    background-color: $primary;
     opacity: 0.2;
     animation: blink 3s ease infinite;
 
