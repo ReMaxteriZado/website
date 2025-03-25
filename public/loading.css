@@ -1,62 +1,157 @@
-#loading-panel .section {
+#loading-panel {
   position: fixed;
+  top: 0;
   left: 0;
   background-color: #11141b;
   z-index: 1003;
   width: 100%;
-  height: 50%;
+  height: 100%;
+  transition: opacity 0.3s ease;
 }
 
-#loading-panel .section.top-section {
-  top: 0;
+#loading-panel.loaded {
+  visibility: hidden;
+  opacity: 0;
 }
 
-#loading-panel .section.bottom-section {
-  bottom: 0;
-}
-
-#loading-panel .line {
+#loading-panel .tetrominos {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100px;
-  height: 2px;
-  background-color: white;
-  animation: loading 1s infinite;
-  z-index: 1004;
+  transform: translate(-112px, -96px);
 }
 
-@keyframes loading {
-  0% {
-    width: 100px;
+#loading-panel .tetromino {
+  width: 96px;
+  height: 112px;
+  position: absolute;
+  transition: all ease 0.3s;
+  background: url('data:image/svg+xml;utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 612 684"%3E%3Cpath fill="%23010101" d="M305.7 0L0 170.9v342.3L305.7 684 612 513.2V170.9L305.7 0z"/%3E%3Cpath fill="%23fff" d="M305.7 80.1l-233.6 131 233.6 131 234.2-131-234.2-131"/%3E%3C/svg%3E')
+    no-repeat top center;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-out;
+}
+
+#loading-panel .box1 {
+  animation-name: tetromino1;
+}
+
+#loading-panel .box2 {
+  animation-name: tetromino2;
+}
+
+#loading-panel .box3 {
+  animation-name: tetromino3;
+  z-index: 2;
+}
+
+#loading-panel .box4 {
+  animation-name: tetromino4;
+}
+
+@keyframes tetromino1 {
+  0%,
+  40% {
+    transform: translate(0, 0);
   }
   50% {
-    width: 200px;
+    transform: translate(48px, -27px);
   }
+  60%,
   100% {
-    width: 100px;
-  }
-}
-
-#loading-panel.loaded .top-section,
-#loading-panel.loaded .bottom-section {
-  animation: section-loaded 1s cubic-bezier(1, 0, 0.55, 1) 0.4s forwards;
-}
-
-@keyframes section-loaded {
-  100% {
-    height: 0;
+    transform: translate(96px, 0);
   }
 }
 
-#loading-panel.loaded .line {
-  animation: loaded 0.8s forwards;
+@keyframes tetromino2 {
+  0%,
+  20% {
+    transform: translate(96px, 0px);
+  }
+  40%,
+  100% {
+    transform: translate(144px, 27px);
+  }
 }
 
-@keyframes loaded {
+@keyframes tetromino3 {
+  0% {
+    transform: translate(144px, 27px);
+  }
+  20%,
+  60% {
+    transform: translate(96px, 54px);
+  }
+  90%,
   100% {
-    width: 100%;
-    opacity: 0;
+    transform: translate(48px, 27px);
+  }
+}
+
+@keyframes tetromino4 {
+  0%,
+  60% {
+    transform: translate(48px, 27px);
+  }
+  90%,
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+#loading-panel.loaded .tetromino {
+  animation-timing-function: ease;
+}
+
+#loading-panel.loaded .box1 {
+  animation-name: tetromino1Loaded;
+}
+
+@keyframes tetromino1Loaded {
+  from {
+    transform: translate(96px, 0);
+  }
+  to {
+    transform: translate(96px, -50vh);
+  }
+}
+
+#loading-panel.loaded .box2 {
+  animation-name: tetromino2Loaded;
+}
+
+@keyframes tetromino2Loaded {
+  from {
+    transform: translate(144px, 27px);
+  }
+  to {
+    transform: translate(50vw, 27px);
+  }
+}
+
+#loading-panel.loaded .box3 {
+  animation-name: tetromino3Loaded;
+}
+
+@keyframes tetromino3Loaded {
+  from {
+    transform: translate(48px, 27px);
+  }
+  to {
+    transform: translate(48px, 50vh);
+  }
+}
+
+#loading-panel.loaded .box4 {
+  animation-name: tetromino4Loaded;
+}
+
+@keyframes tetromino4Loaded {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(-50vw, 0);
   }
 }

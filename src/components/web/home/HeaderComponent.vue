@@ -1,8 +1,18 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const words = ['FRONTEND', 'DEVELOPER']
 const splittedWords = words.map((word) => word.split(''))
+const animateLinkedin = ref(false)
+
+function goLinkedin() {
+  animateLinkedin.value = true
+
+  setTimeout(() => {
+    // window.open('https://www.linkedin.com/in/aesppal/', '_blank')
+    animateLinkedin.value = false
+  }, 1500)
+}
 
 onMounted(() => {
   // Split words into letters
@@ -103,9 +113,16 @@ onMounted(() => {
 
 <template>
   <header>
-    <div class="non-touchable-header flex-column justify-content-center gap-5 pl-5">
+    <div class="non-touchable-header flex-column justify-content-center pl-5">
+      <div
+        @click="goLinkedin()"
+        class="linkedin-element hover-element flex align-items-center mb-3 w-max"
+      >
+        <div class="pi pi-linkedin text-primary text-lg"></div>
+        <h3 class="text-white m-0 pl-5" style="transform: translateY(1px)">Alejandro Espino</h3>
+      </div>
       <template v-for="(word, index) in splittedWords" :key="index">
-        <div class="word flex gap-3 border-round-2xl">
+        <div class="word flex gap-3 border-round-2xl mb-5">
           <template v-for="(letter, index2) in word" :key="index2">
             <div style="height: 140px">
               <canvas :class="letter" height="160"> </canvas>
@@ -129,6 +146,18 @@ header {
   .non-touchable-header {
     display: flex;
     height: 100vh;
+
+    .linkedin-element {
+      position: relative;
+
+      .pi-linkedin {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 3;
+      }
+    }
 
     .word {
       width: 10rem;
