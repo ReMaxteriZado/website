@@ -4,7 +4,7 @@ import { useStore } from 'vuex'
 
 import NavbarComponent from '@/components/web/partials/NavbarComponent.vue'
 import FollowCursor from '@/components/web/partials/FollowCursor.vue'
-import HeaderComponent from '@/components/web/home/HeaderComponent.vue'
+import HeaderComponent from '@/components/web/home/header/HeaderComponent.vue'
 import AboutMe from '@/components/web/home/AboutMe.vue'
 import ScrollDown from '@/components/web/home/ScrollDown.vue'
 
@@ -21,13 +21,10 @@ watch(
       const loadingPanel = document.querySelector('#loading-panel')
       loadingPanel.classList.add('loaded')
 
-      setTimeout(() => {
-        const body = document.querySelector('body')
-        body.classList.remove('loading')
-      }, 1400)
+      const body = document.querySelector('body')
+      body.classList.remove('loading')
     }
   },
-  { immediate: true },
 )
 </script>
 
@@ -42,8 +39,4 @@ watch(
   </main>
 </template>
 
-<style lang="scss" scoped>
-main {
-  background-color: black;
-}
-</style>
+<style lang="scss" scoped></style>
