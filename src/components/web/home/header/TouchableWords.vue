@@ -3,46 +3,43 @@ const words = ['FRONTEND', 'DEVELOPER']
 </script>
 
 <template>
-  <div class="touchable-header">
-    <div class="words-containter">
-      <template v-for="(word, index) in words" :key="index">
-        <div class="word">{{ word }}</div>
-      </template>
-    </div>
+  <div class="words-containter">
+    <template v-for="(word, index) in words" :key="index">
+      <div class="word">{{ word }}</div>
+    </template>
   </div>
 </template>
 
 <style lang="scss" scoped>
-header {
-  .touchable-header {
-    display: none;
-    height: 100vh;
-  }
+.words-containter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  z-index: 2;
+  text-shadow: 0px 0px 12px rgba(0, 0, 0, 0.2);
 
-  @media (pointer: coarse) {
-    .touchable-header {
-      display: block;
+  .word {
+    font-size: 6rem;
+    font-weight: 700;
+    color: white;
+  }
+}
+
+@media (max-width: $md) {
+  .words-containter {
+    .word {
+      font-size: 5rem;
     }
   }
+}
 
+@media (min-width: $lg) {
   .words-containter {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-90deg);
+    transform: translate(-50%, -50%);
 
     .word {
       font-size: 6rem;
-      font-weight: 700;
-      color: white;
-    }
-  }
-
-  @media (max-width: $md) {
-    .words-containter {
-      .word {
-        font-size: 5rem;
-      }
     }
   }
 }

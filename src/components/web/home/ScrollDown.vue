@@ -145,12 +145,10 @@ $rotating-size: 15px;
   }
 
   @media (max-width: $md) {
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  @media (max-width: $xs) {
-    transform: translate(-50%, -10%);
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    z-index: 0;
   }
 }
 </style>

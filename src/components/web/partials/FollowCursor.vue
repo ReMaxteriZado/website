@@ -61,8 +61,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="outer-cursor hidden lg:block"></div>
-  <div class="inner-cursor hidden lg:block"></div>
+  <div class="outer-cursor"></div>
+  <div class="inner-cursor"></div>
 </template>
 
 <style lang="scss" scoped>
@@ -118,6 +118,13 @@ onMounted(() => {
         opacity: 0.4;
       }
     }
+  }
+}
+
+@media (pointer: coarse) {
+  .inner-cursor,
+  .outer-cursor {
+    display: none;
   }
 }
 </style>
