@@ -16,7 +16,6 @@ import ParticlesAnimation from './ParticlesAnimation.vue'
 
     <div class="touchable-header flex-column justify-content-center pl-5">
       <TouchableWords />
-      <!-- <GoLinkedin /> -->
     </div>
   </header>
 </template>

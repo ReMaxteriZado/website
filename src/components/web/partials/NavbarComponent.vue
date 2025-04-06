@@ -5,24 +5,27 @@ import { useStore } from 'vuex'
 const store = useStore()
 
 const user = computed(() => store.state.user)
-const links = computed(() => {
-  return [
-    { name: 'Inicio', label: 'Home', show: true },
-    { name: 'Login', label: 'Login', show: !user.value },
-    { name: 'Dashboard', label: 'Dashboard', show: user.value },
-  ]
-})
+const links = [
+  { name: 'Inicio', label: 'Home', show: true },
+  { name: 'Inicio', label: 'Home', show: true },
+  { name: 'Inicio', label: 'Home', show: true },
+  { name: 'Login', label: 'Login', show: !user.value },
+  { name: 'Dashboard', label: 'Dashboard', show: user.value },
+]
 const toggledMenu = ref(false)
 
 function toggleMenu() {
-  console.log('🚀 ~ NavbarComponent.vue ~ toggleMenu:')
   toggledMenu.value = !toggledMenu.value
 }
 </script>
 
 <template>
   <nav class="flex justify-content-between">
-    <div @click="toggleMenu()" class="menu border-round-lg" :class="{ opened: toggledMenu }">
+    <div
+      @click="toggleMenu()"
+      class="menu hidden md:block border-round-sm"
+      :class="{ opened: toggledMenu }"
+    >
       <svg class="hover-element" width="50" height="50" viewBox="0 0 100 100">
         <path
           class="line line1"
@@ -36,12 +39,12 @@ function toggleMenu() {
       </svg>
     </div>
 
-    <div class="hidden md:flex align-items-start gap-3">
+    <div class="links flex align-items-start md:gap-3">
       <template v-for="link in links" :key="link.name">
         <RouterLink
           v-if="link.show"
           :to="{ name: link.name }"
-          class="link flex align-items-center hover-element hover-element-fit px-3 text-primary no-underline text-lg"
+          class="link flex align-items-center justify-content-center text-center hover-element hover-element-fit px-3 text-primary no-underline text-lg"
         >
           {{ link.label }}
         </RouterLink>
@@ -105,6 +108,37 @@ nav {
 
   .link {
     height: 50px;
+  }
+
+  @media (max-width: calc($md - 1px)) {
+    top: unset;
+    bottom: 0rem;
+    left: 0rem;
+    right: 0rem;
+    background-color: white;
+    box-shadow: $box-shadow;
+
+    .links {
+      width: 100%;
+    }
+
+    .link {
+      width: 100%;
+      background-color: white;
+      text-align: center;
+      position: relative;
+
+      &:not(:last-child) {
+        &::after {
+          content: '';
+          position: absolute;
+          width: 1px;
+          right: 0;
+          height: 80%;
+          background-color: lightgray;
+        }
+      }
+    }
   }
 }
 </style>

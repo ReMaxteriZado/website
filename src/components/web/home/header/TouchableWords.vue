@@ -1,4 +1,5 @@
 <script setup>
+import GoLinkedin from './GoLinkedin.vue'
 const words = ['FRONTEND', 'DEVELOPER']
 </script>
 
@@ -7,6 +8,7 @@ const words = ['FRONTEND', 'DEVELOPER']
     <template v-for="(word, index) in words" :key="index">
       <div class="word">{{ word }}</div>
     </template>
+    <GoLinkedin />
   </div>
 </template>
 

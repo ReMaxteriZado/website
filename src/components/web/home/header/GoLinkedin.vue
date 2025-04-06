@@ -70,5 +70,12 @@ function mouseLeave() {
       }
     }
   }
+
+  @media (pointer: coarse) {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateX(-70%) translateY(-50%) rotate(90deg);
+  }
 }
 </style>
