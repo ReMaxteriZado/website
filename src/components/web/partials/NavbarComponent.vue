@@ -7,8 +7,8 @@ const store = useStore()
 const user = computed(() => store.state.user)
 const links = [
   { name: 'Inicio', label: 'Home', show: true },
-  { name: 'Inicio', label: 'Home', show: true },
-  { name: 'Inicio', label: 'Home', show: true },
+  { name: 'Inicio', label: 'About me', show: true },
+  { name: 'Inicio', label: 'My Knowledge', show: true },
   { name: 'Login', label: 'Login', show: !user.value },
   { name: 'Dashboard', label: 'Dashboard', show: user.value },
 ]

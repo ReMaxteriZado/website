@@ -5,8 +5,9 @@ import { useStore } from 'vuex'
 import NavbarComponent from '@/components/web/partials/NavbarComponent.vue'
 import FollowCursor from '@/components/web/partials/FollowCursor.vue'
 import HeaderComponent from '@/components/web/home/header/HeaderComponent.vue'
-import AboutMe from '@/components/web/home/AboutMe.vue'
 import ScrollDown from '@/components/web/home/ScrollDown.vue'
+import AboutMe from '@/components/web/home/AboutMe.vue'
+import MyKnowledge from '@/components/web/home/MyKnowledge.vue'
 
 const store = useStore()
 
@@ -35,7 +36,8 @@ watch(
 
     <HeaderComponent />
     <ScrollDown />
-    <AboutMe />
+    <AboutMe class="mt-5" />
+    <MyKnowledge class="mt-5" />
   </main>
 </template>
 
