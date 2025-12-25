@@ -6,9 +6,9 @@ const store = useStore()
 
 const user = computed(() => store.state.user)
 const links = [
-  { name: 'Inicio', label: 'Home', show: true },
-  { name: 'Inicio', label: 'About me', show: true },
-  { name: 'Inicio', label: 'My Knowledge', show: true },
+  { name: 'Inicio', hash: '#header', label: 'Home', show: true },
+  { name: 'Inicio', hash: '#about-me', label: 'About me', show: true },
+  { name: 'Inicio', hash: '#my-knowledge', label: 'My Knowledge', show: true },
   { name: 'Login', label: 'Login', show: !user.value },
   { name: 'Dashboard', label: 'Dashboard', show: user.value },
 ]
@@ -43,7 +43,7 @@ function toggleMenu() {
       <template v-for="link in links" :key="link.name">
         <RouterLink
           v-if="link.show"
-          :to="{ name: link.name }"
+          :to="{ name: link.name, hash: link.hash }"
           class="link flex align-items-center justify-content-center text-center hover-element hover-element-fit px-3 text-primary no-underline text-lg"
         >
           {{ link.label }}

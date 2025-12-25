@@ -60,7 +60,6 @@ onMounted(() => {
   const canvas = document.querySelectorAll('canvas')
 
   canvas.forEach((canva) => {
-    const rect = canva.getBoundingClientRect()
     const ctx = canva.getContext('2d')
 
     let painting = false
@@ -84,6 +83,9 @@ onMounted(() => {
 
     function draw(e) {
       if (!painting) return
+
+      // Recalcular el rect en cada dibujo para tener coordenadas actualizadas
+      const rect = canva.getBoundingClientRect()
 
       ctx.lineWidth = 100 // Brush size
       ctx.lineCap = 'round' // Smooth edges

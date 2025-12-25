@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div class="about-me">
+  <div id="about-me" class="about-me">
     <div class="about-me-title flex align-items-center gap-3">
       <div class="vertical-line"></div>
       <div class="title">About me</div>

@@ -6,7 +6,7 @@ import ParticlesAnimation from './ParticlesAnimation.vue'
 </script>
 
 <template>
-  <header>
+  <header id="header">
     <ParticlesAnimation />
 
     <div class="non-touchable-header flex-column justify-content-center pl-5">

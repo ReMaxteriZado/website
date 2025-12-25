@@ -31,7 +31,7 @@ function getImageUrl(imageName) {
 </script>
 
 <template>
-  <div class="my-knowledge flex align-items-center justify-content-center flex-column">
+  <div id="my-knowledge" class="my-knowledge flex align-items-center justify-content-center flex-column">
     <ClonedCard ref="clonedCardRef" :get-image-url="getImageUrl" />
     <h2 class="title">My Knowledge</h2>
     <div class="carousel-container">

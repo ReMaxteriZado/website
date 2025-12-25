@@ -95,6 +95,9 @@ defineExpose({
     <div class="close-cloned-card flex hover-element" @click="resetSelectedSkill">
       <i class="pi pi-times"></i>
     </div>
+    <div class="read-more" @click="readMore(selectedSkill)">
+      <span>Read More</span>
+    </div>
   </div>
 </template>
 
@@ -126,6 +129,23 @@ defineExpose({
 
     &:hover {
       color: red;
+    }
+  }
+
+  .read-more {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 50%;
+    transform: translateX(50%);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.35rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.3);
     }
   }
 }
