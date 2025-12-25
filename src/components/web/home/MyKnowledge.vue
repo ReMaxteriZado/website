@@ -1,52 +1,38 @@
 <script setup>
-import { nextTick, ref } from 'vue'
+import { ref } from 'vue'
+import ClonedCard from '@/components/web/partials/ClonedCard.vue'
 
-const skills = ['Vue.JS', 'JavaScript', 'SASS', 'CSS3', 'HTML5', 'Git', 'Laravel', 'PHP']
-const selectedSkill = ref(null)
+const skills = [
+  { label: 'Vue.JS', image: 'vue.png' },
+  { label: 'JavaScript', image: 'js.png' },
+  { label: 'SASS', image: 'sass.png' },
+  { label: 'CSS3', image: 'css3.png' },
+  { label: 'HTML5', image: 'html5.png' },
+  { label: 'Git', image: 'git.png' },
+]
+const clonedCardRef = ref(null)
+const randomizedSkills = shuffle([...skills])
 
-async function expandSkill(event, skill) {
-  selectedSkill.value = skill
-
-  await nextTick()
-
-  const card = event.target
-  const parent = document.querySelector('.my-knowledge')
-
-  const elRect = card.getBoundingClientRect()
-  const parentRect = parent.getBoundingClientRect()
-
-  const centerX = elRect.left - parentRect.left + elRect.width / 2
-  const centerY = elRect.top - parentRect.top + elRect.height / 2
-
-  const clonedCard = document.querySelector('.cloned-card')
-  clonedCard.style.top = `${centerY}px`
-  clonedCard.style.left = `${centerX}px`
-
-  requestAnimationFrame(() => {
-    clonedCard.style.top = '50%'
-    clonedCard.style.left = '50%'
-    clonedCard.style.transform = 'translate(-50%, -50%) rotate(0deg) scale(1.3)'
-  })
+async function handleExpandSkill(event, skill) {
+  clonedCardRef.value.expandSkill(event, skill)
 }
 
-function resetSelectedSkill() {
-  selectedSkill.value = null
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[array[i], array[j]] = [array[j], array[i]]
+  }
+  return array
+}
 
-  const clonedCard = document.querySelector('.cloned-card')
-  clonedCard.style.transform = 'translate(-50%, -50%) rotate(45deg) scale(1)'
-  clonedCard.style.top = 'unset'
-  clonedCard.style.left = 'unset'
+function getImageUrl(imageName) {
+  return new URL(`../../../assets/images/skills/${imageName}`, import.meta.url).href
 }
 </script>
 
 <template>
   <div class="my-knowledge flex align-items-center justify-content-center flex-column">
-    <div v-show="selectedSkill" class="cloned-card">
-      {{ selectedSkill }}
-      <div class="close-cloned-card flex hover-element" @click="resetSelectedSkill">
-        <i class="pi pi-times"></i>
-      </div>
-    </div>
+    <ClonedCard ref="clonedCardRef" :get-image-url="getImageUrl" />
     <h2 class="title">My Knowledge</h2>
     <div class="carousel-container">
       <template v-for="n in 4" :key="n">
@@ -56,21 +42,21 @@ function resetSelectedSkill() {
               v-for="(skill, index) in skills"
               :key="index"
               class="card"
-              @click="($event) => expandSkill($event, skill)"
+              @click="($event) => handleExpandSkill($event, skill)"
             >
-              {{ skill }}
+              <img :src="getImageUrl(skill.image)" width="150px" :alt="skill.label" />
             </div>
           </div>
         </div>
         <div class="carousel even-carousel">
           <div v-for="n in 2" :key="n" class="group">
             <div
-              v-for="(skill, index) in skills"
+              v-for="(skill, index) in randomizedSkills"
               :key="index"
               class="card"
-              @click="($event) => expandSkill($event, skill)"
+              @click="($event) => handleExpandSkill($event, skill)"
             >
-              {{ skill }}
+              <img :src="getImageUrl(skill.image)" width="150px" :alt="skill.label" />
             </div>
           </div>
         </div>
@@ -87,35 +73,6 @@ function resetSelectedSkill() {
   position: relative;
   height: 50rem;
 
-  .cloned-card {
-    position: absolute;
-    z-index: 2;
-    transition: all 1s ease;
-    transform: translate(-50%, -50%) rotate(45deg);
-    width: 20rem;
-    aspect-ratio: 1;
-    background-color: white;
-    color: black;
-    border-radius: 0.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-
-    .close-cloned-card {
-      position: absolute;
-      top: 0.75rem;
-      right: 0.75rem;
-      cursor: pointer;
-      font-size: 1.5rem;
-      border-radius: 0.35rem;
-
-      &:hover {
-        color: red;
-      }
-    }
-  }
-
   .title {
     font-size: 3rem;
     margin: 0;
@@ -130,8 +87,6 @@ function resetSelectedSkill() {
     transform: rotate(45deg);
 
     .carousel {
-      width: 100%;
-      height: 20rem;
       display: flex;
       overflow-x: hidden;
       margin-bottom: 1rem;
@@ -144,7 +99,7 @@ function resetSelectedSkill() {
         padding-right: 1rem;
 
         .card {
-          flex: 0 0 20rem;
+          width: 22rem;
           aspect-ratio: 1;
           background-color: #333;
           border-radius: 0.5rem;
@@ -170,7 +125,7 @@ function resetSelectedSkill() {
 
       &.odd-carousel {
         .group {
-          animation: odd-spin 70s linear infinite;
+          animation: odd-spin 50s linear infinite;
 
           @keyframes odd-spin {
             from {
@@ -186,7 +141,7 @@ function resetSelectedSkill() {
 
       &.even-carousel {
         .group {
-          animation: even-spin 70s linear infinite;
+          animation: even-spin 90s linear infinite;
 
           @keyframes even-spin {
             from {

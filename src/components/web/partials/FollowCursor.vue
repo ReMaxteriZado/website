@@ -2,61 +2,85 @@
 import { onMounted } from 'vue'
 
 onMounted(() => {
-  var outerCursor = document.querySelector('.outer-cursor')
-  var innerCursor = document.querySelector('.inner-cursor')
-  var cursorHover = document.querySelectorAll('.hover-element')
+  const interval = setInterval(() => {
+    let outerCursor = document.querySelector('.outer-cursor')
+    let innerCursor = document.querySelector('.inner-cursor')
 
-  document.addEventListener('mousemove', function (e) {
-    var x = e.clientX
-    var y = e.clientY
+    if (!outerCursor || !innerCursor) return
 
-    if (!outerCursor.classList.contains('hovering')) {
-      outerCursor.style.left = x + 'px'
-      outerCursor.style.top = y + 'px'
-    }
+    clearInterval(interval)
+    document.addEventListener('mousemove', function (e) {
+      var x = e.clientX
+      var y = e.clientY
 
-    innerCursor.style.left = x + 'px'
-    innerCursor.style.top = y + 'px'
-  })
+      if (!outerCursor.classList.contains('hovering')) {
+        outerCursor.style.left = x + 'px'
+        outerCursor.style.top = y + 'px'
+      }
 
-  document.addEventListener('mousedown', function () {
-    outerCursor.classList.add('mousedown')
-    innerCursor.classList.add('mousedown')
-  })
+      innerCursor.style.left = x + 'px'
+      innerCursor.style.top = y + 'px'
+    })
 
-  document.addEventListener('mouseup', function () {
-    outerCursor.classList.remove('mousedown')
-    innerCursor.classList.remove('mousedown')
-  })
+    document.addEventListener('mousedown', function () {
+      outerCursor.classList.add('mousedown')
+      innerCursor.classList.add('mousedown')
+    })
 
-  cursorHover.forEach((item) => {
-    item.addEventListener('mouseenter', () => {
-      const fitElement = item.classList.contains('hover-element-fit')
+    document.addEventListener('mouseup', function () {
+      outerCursor.classList.remove('mousedown')
+      innerCursor.classList.remove('mousedown')
+    })
+
+    document.addEventListener('mouseover', (e) => {
+      const el = e.target.closest('.hover-element')
+
+      if (!el) return
+
+      const fitElement = el.classList.contains('hover-element-fit')
 
       outerCursor.classList.add('hovering')
       const gap = fitElement ? 0 : 20
 
-      const itemBounding = item.getBoundingClientRect()
+      const itemBounding = el.getBoundingClientRect()
       outerCursor.style.width = `${itemBounding.width + gap}px`
       outerCursor.style.height = `${itemBounding.height + gap}px`
       outerCursor.style.left = `${itemBounding.left - gap / 2}px`
       outerCursor.style.top = `${itemBounding.top - gap / 2}px`
 
-      const elementBorderRadius = window.getComputedStyle(item).borderRadius
+      const elementBorderRadius = window.getComputedStyle(el).borderRadius
       outerCursor.style.borderRadius = `calc(${elementBorderRadius == '0px' ? '4px' : elementBorderRadius} + 4px)`
     })
 
-    item.addEventListener('mouseleave', () => {
+    document.addEventListener('mouseout', (e) => {
+      const el = e.target.closest('.hover-element')
+
+      if (!el) return
+
       outerCursor.classList.remove('hovering')
-      resetOuterCursor(outerCursor)
+      outerCursor.style.width = `40px`
+      outerCursor.style.height = `40px`
+      outerCursor.style.borderRadius = `100%`
+    })
+
+    const observer = new MutationObserver(() => {
+      const hovering = outerCursor.classList.contains('hovering')
+      if (!hovering) return
+
+      const hoverElements = document.querySelectorAll('.hover-element:hover')
+      if (hoverElements.length === 0) {
+        outerCursor.classList.remove('hovering')
+        outerCursor.style.width = `40px`
+        outerCursor.style.height = `40px`
+        outerCursor.style.borderRadius = `100%`
+      }
+    })
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
     })
   })
-
-  function resetOuterCursor() {
-    outerCursor.style.width = '40px'
-    outerCursor.style.height = '40px'
-    outerCursor.style.borderRadius = '100%'
-  }
 })
 </script>
 
