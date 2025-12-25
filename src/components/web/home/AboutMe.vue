@@ -19,7 +19,8 @@
 
 <style lang="scss" scoped>
 .about-me {
-  padding: 7.5rem 2rem;
+  padding: 15rem 2rem;
+
   .about-me-title {
     .vertical-line {
       width: 7px;

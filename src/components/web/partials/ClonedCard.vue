@@ -115,8 +115,7 @@ defineExpose({
   justify-content: center;
   align-items: center;
   font-size: 2rem;
-  border: 1px solid white;
-  box-shadow: $box-shadow;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
   will-change: transform;
 
   .close-cloned-card {
