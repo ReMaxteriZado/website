@@ -1,5 +1,6 @@
 <script setup>
 import { nextTick, ref } from 'vue'
+import { useStore } from 'vuex'
 
 defineProps({
   getImageUrl: {
@@ -8,8 +9,10 @@ defineProps({
   },
 })
 
+const store = useStore()
 const selectedSkill = ref(null)
 let followCursorRAF = null
+let followCursorListener = null
 
 function resetSelectedSkill() {
   selectedSkill.value = null
@@ -19,8 +22,14 @@ function resetSelectedSkill() {
   clonedCard.style.top = 'unset'
   clonedCard.style.left = 'unset'
 
-  // Limpiar el listener y el requestAnimationFrame
-  document.removeEventListener('mousemove', followCursor)
+  clearFollowCursor()
+}
+
+function clearFollowCursor() {
+  if (followCursorListener) {
+    document.removeEventListener('mousemove', followCursorListener)
+    followCursorListener = null
+  }
 
   if (followCursorRAF) {
     cancelAnimationFrame(followCursorRAF)
@@ -53,7 +62,8 @@ async function expandSkill(event, skill) {
   })
 
   setTimeout(() => {
-    document.addEventListener('mousemove', (event) => followCursor(event, clonedCard))
+    followCursorListener = (event) => followCursor(event, clonedCard)
+    document.addEventListener('mousemove', followCursorListener)
   }, 1000)
 }
 
@@ -82,6 +92,10 @@ function followCursor(event, clonedCard) {
   })
 }
 
+function readMore() {
+  store.commit('setShowReadMore', true)
+}
+
 defineExpose({
   resetSelectedSkill,
   selectedSkill,
@@ -95,7 +109,7 @@ defineExpose({
     <div class="close-cloned-card flex hover-element" @click="resetSelectedSkill">
       <i class="pi pi-times"></i>
     </div>
-    <div class="read-more" @click="readMore(selectedSkill)">
+    <div class="read-more" @click="readMore">
       <span>Read More</span>
     </div>
   </div>

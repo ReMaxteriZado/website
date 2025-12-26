@@ -12,4 +12,7 @@ export default {
   setAdminSidebarVisible(state, visible) {
     state.adminSidebarVisible = visible
   },
+  setShowReadMore(state, show) {
+    state.showReadMore = show
+  },
 }

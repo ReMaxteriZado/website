@@ -4,7 +4,11 @@ import ClonedCard from '@/components/web/partials/ClonedCard.vue'
 
 const skills = [
   { label: 'Vue.JS', image: 'vue.png' },
-  { label: 'JavaScript', image: 'js.png' },
+  {
+    label: 'JavaScript',
+    image: 'js.png',
+    description: `I have 5 years of experience with JavaScript, developing modern and efficient web applications. I have mainly worked on the frontend, creating dynamic interfaces, managing state and asynchrony, and applying best practices to write clean, scalable code focused on performance and user experience.`,
+  },
   { label: 'SASS', image: 'sass.png' },
   { label: 'CSS3', image: 'css3.png' },
   { label: 'HTML5', image: 'html5.png' },
