@@ -38,6 +38,11 @@ onMounted(() => {
       if (!el) return
 
       const fitElement = el.classList.contains('hover-element-fit')
+      const withoutBgElement = el.classList.contains('hover-element-without-bg')
+
+      if (withoutBgElement) {
+        outerCursor.classList.add('hovering-without-bg')
+      }
 
       outerCursor.classList.add('hovering')
       const gap = fitElement ? 0 : 20
@@ -58,6 +63,8 @@ onMounted(() => {
       if (!el) return
 
       outerCursor.classList.remove('hovering')
+      outerCursor.classList.remove('hovering-without-bg')
+
       outerCursor.style.width = `40px`
       outerCursor.style.height = `40px`
       outerCursor.style.borderRadius = `100%`
@@ -70,6 +77,8 @@ onMounted(() => {
       const hoverElements = document.querySelectorAll('.hover-element:hover')
       if (hoverElements.length === 0) {
         outerCursor.classList.remove('hovering')
+        outerCursor.classList.remove('hovering-without-bg')
+
         outerCursor.style.width = `40px`
         outerCursor.style.height = `40px`
         outerCursor.style.borderRadius = `100%`
@@ -142,6 +151,12 @@ onMounted(() => {
         opacity: 0.4;
       }
     }
+  }
+
+  &.hovering-without-bg {
+    background-color: transparent;
+    opacity: 1;
+    animation: none;
   }
 }
 

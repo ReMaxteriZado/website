@@ -1,8 +1,8 @@
 <script setup></script>
 
 <template>
-  <div id="experience">
-    <div class="work-in-progress">Experience component is under construction...</div>
+  <div id="footer">
+    <div class="work-in-progress">Footer component is under construction...</div>
   </div>
 </template>
 

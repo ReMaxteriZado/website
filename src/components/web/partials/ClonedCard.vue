@@ -150,16 +150,7 @@ defineExpose({
     bottom: 0.75rem;
     right: 50%;
     transform: translateX(50%);
-    cursor: pointer;
     font-size: 1rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.35rem;
-    background-color: rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
-
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.3);
-    }
   }
 }
 </style>

@@ -9,6 +9,7 @@ import ScrollDown from '@/components/web/home/ScrollDown.vue'
 import AboutMe from '@/components/web/home/AboutMe.vue'
 import MyKnowledge from '@/components/web/home/MyKnowledge.vue'
 import Experience from '@/components/web/home/Experience.vue'
+import Footer from '@/components/web/home/Footer.vue'
 
 const store = useStore()
 
@@ -40,6 +41,7 @@ watch(
     <AboutMe />
     <MyKnowledge />
     <Experience />
+    <Footer />
   </main>
 </template>
 

@@ -1,5 +1,5 @@
 <script setup>
-import GoLinkedin from './GoLinkedin.vue'
+import GoLinkedin from '@/components/web/home/header/GoLinkedin.vue'
 const words = ['FRONTEND', 'DEVELOPER']
 </script>
 

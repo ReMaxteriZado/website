@@ -1,9 +1,9 @@
 import { createStore } from 'vuex'
 
 // Import state file
-import state from './state'
-import mutations from './mutations'
-import actions from './actions'
+import state from '@/store/state'
+import mutations from '@/store/mutations'
+import actions from '@/store/actions'
 
 export default createStore({
   state,

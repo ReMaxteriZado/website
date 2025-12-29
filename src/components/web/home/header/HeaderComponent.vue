@@ -1,8 +1,8 @@
 <script setup>
-import GoLinkedin from './GoLinkedin.vue'
-import TouchableWords from './TouchableWords.vue'
-import NonTouchableWords from './NonTouchableWords.vue'
-import ParticlesAnimation from './ParticlesAnimation.vue'
+import GoLinkedin from '@/components/web/home/header/GoLinkedin.vue'
+import TouchableWords from '@/components/web/home/header/TouchableWords.vue'
+import NonTouchableWords from '@/components/web/home/header/NonTouchableWords.vue'
+import ParticlesAnimation from '@/components/web/home/header/ParticlesAnimation.vue'
 </script>
 
 <template>

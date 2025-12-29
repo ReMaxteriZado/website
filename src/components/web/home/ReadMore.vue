@@ -2,7 +2,7 @@
 import { computed, watch } from 'vue'
 import { useStore } from 'vuex'
 
-import ParticlesAnimation from '../home/header/ParticlesAnimation.vue'
+import ParticlesAnimation from '@/components/web/home/header/ParticlesAnimation.vue'
 
 defineProps({
   getImageUrl: {
@@ -38,8 +38,8 @@ watch(
     <div v-for="n in 4" :key="n" class="read-more-item"></div>
     <div v-if="readMore?.description" class="read-more-content">
       <img :src="getImageUrl(readMore.image, true)" width="150px" :alt="readMore.label" />
-      <div>{{ readMore.description }}</div>
-      <div class="close-read-more hover-element" @click="closeReadMore">
+      <div class="my-5">{{ readMore.description }}</div>
+      <div class="close-read-more hover-element hover-element-without-bg" @click="closeReadMore">
         <div>Close</div>
       </div>
     </div>
@@ -110,7 +110,6 @@ watch(
     opacity: 0;
     color: black;
     font-size: 1.25rem;
-    margin-top: 1.5rem;
     font-weight: bold;
     width: 10rem;
     padding: 0.5rem 1rem;
