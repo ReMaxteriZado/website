@@ -8,7 +8,6 @@ import HeaderComponent from '@/components/web/home/header/HeaderComponent.vue'
 import ScrollDown from '@/components/web/home/ScrollDown.vue'
 import AboutMe from '@/components/web/home/AboutMe.vue'
 import MyKnowledge from '@/components/web/home/MyKnowledge.vue'
-import ReadMore from '@/components/web/home/ReadMore.vue'
 import Experience from '@/components/web/home/Experience.vue'
 
 const store = useStore()
@@ -40,7 +39,6 @@ watch(
     <ScrollDown />
     <AboutMe />
     <MyKnowledge />
-    <ReadMore />
     <Experience />
   </main>
 </template>

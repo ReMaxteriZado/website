@@ -18,7 +18,7 @@ const words = ['FRONTEND', 'DEVELOPER']
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(-90deg);
-  z-index: 2;
+  z-index: $touchable-words-z-index;
   text-shadow: 0px 0px 12px rgba(0, 0, 0, 0.2);
 
   .word {

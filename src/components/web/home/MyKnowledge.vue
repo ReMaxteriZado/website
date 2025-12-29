@@ -1,18 +1,45 @@
 <script setup>
 import { ref } from 'vue'
 import ClonedCard from '@/components/web/partials/ClonedCard.vue'
+import ReadMore from '@/components/web/home/ReadMore.vue'
 
 const skills = [
-  { label: 'Vue.JS', image: 'vue.png' },
+  {
+    label: 'Vue.JS',
+    image: 'vue.png',
+    description:
+      'I have solid experience with Vue.js, building dynamic, component-based user interfaces for modern web applications. I work with reactive data, computed properties, lifecycle hooks, and state management to create scalable and maintainable solutions. I focus on reusable components, clean separation of concerns, and efficient communication between components. I also integrate APIs, handle asynchronous data flows, and optimize performance. Vue.js allows me to deliver fast, user-friendly interfaces while maintaining clean code and a structured architecture suitable for long-term projects.',
+  },
   {
     label: 'JavaScript',
     image: 'js.png',
-    description: `I have 5 years of experience with JavaScript, developing modern and efficient web applications. I have mainly worked on the frontend, creating dynamic interfaces, managing state and asynchrony, and applying best practices to write clean, scalable code focused on performance and user experience.`,
+    description:
+      'I have over five years of experience working with JavaScript, using it as the core language for building modern web applications. I am comfortable with ES6+ features, asynchronous programming, and event-driven architectures. My work includes DOM manipulation, state management, API integration, and performance optimization. I focus on writing clean, readable, and scalable code that is easy to maintain over time. JavaScript has allowed me to adapt quickly to new frameworks and tools, understand browser behavior in depth, and deliver interactive, efficient, and user-focused solutions.',
   },
-  { label: 'SASS', image: 'sass.png' },
-  { label: 'CSS3', image: 'css3.png' },
-  { label: 'HTML5', image: 'html5.png' },
-  { label: 'Git', image: 'git.png' },
+  {
+    label: 'SASS',
+    image: 'sass.png',
+    description:
+      'I use SASS to write more structured, scalable, and maintainable stylesheets. By leveraging variables, mixins, functions, partials, and nesting, I keep styles consistent and easy to manage across large projects. SASS allows me to implement design systems efficiently and reduce repetition in CSS codebases. I organize styles following clear architectures, making collaboration with other developers smoother. My experience with SASS helps speed up development, improve readability, and ensure that styling remains flexible and easy to extend as projects grow and evolve.',
+  },
+  {
+    label: 'CSS3',
+    image: 'css3.png',
+    description:
+      'I have extensive experience with CSS3, creating responsive, visually appealing, and performant user interfaces. I work confidently with Flexbox, Grid, animations, transitions, and media queries to ensure layouts adapt seamlessly across devices and screen sizes. I focus on maintainable styling strategies, consistent design systems, and reusable patterns. I also optimize CSS for performance by reducing redundancy and avoiding unnecessary complexity. My approach balances aesthetics with usability, ensuring interfaces are not only visually polished but also intuitive, accessible, and aligned with modern web standards.',
+  },
+  {
+    label: 'HTML5',
+    image: 'html5.png',
+    description:
+      'I have strong experience with HTML5, using it to build clean, semantic, and accessible structures for modern web applications. I focus on writing well-organized markup that improves SEO, performance, and maintainability. I regularly work with semantic tags, forms, multimedia elements, and accessibility best practices (ARIA roles, proper labeling, and logical document structure). HTML5 is the foundation of my frontend work, ensuring that applications are robust, scalable, and easy to integrate with CSS, JavaScript, and modern frameworks. I also pay close attention to cross-browser compatibility and standards compliance.',
+  },
+  {
+    label: 'Git',
+    image: 'git.png',
+    description:
+      'I use Git daily as my primary version control system, both individually and in team environments. I am comfortable with branching strategies, merging, resolving conflicts, and maintaining a clean commit history. Git enables me to collaborate efficiently, track changes, and manage multiple features or fixes simultaneously. I follow best practices such as meaningful commit messages and organized workflows. My experience with Git ensures code stability, smooth collaboration, and reliable project maintenance throughout the entire development lifecycle.',
+  },
 ]
 const clonedCardRef = ref(null)
 const randomizedSkills = shuffle([...skills])
@@ -29,8 +56,11 @@ function shuffle(array) {
   return array
 }
 
-function getImageUrl(imageName) {
-  return new URL(`../../../assets/images/skills/${imageName}`, import.meta.url).href
+function getImageUrl(imageName, fromCropped = false) {
+  return new URL(
+    `../../../assets/images/skills/${fromCropped ? `cropped/${imageName}` : imageName}`,
+    import.meta.url,
+  ).href
 }
 </script>
 
@@ -39,6 +69,7 @@ function getImageUrl(imageName) {
     id="my-knowledge"
     class="my-knowledge flex align-items-center justify-content-center flex-column"
   >
+    <ReadMore :get-image-url="getImageUrl" />
     <ClonedCard ref="clonedCardRef" :get-image-url="getImageUrl" />
     <h2 class="title">My Knowledge</h2>
     <div class="carousel-container">
@@ -84,7 +115,7 @@ function getImageUrl(imageName) {
     font-size: 3rem;
     margin: 0;
     position: relative;
-    z-index: 1;
+    z-index: $my-knowledge-title-z-index;
     text-shadow: 0 0 10px black;
   }
 

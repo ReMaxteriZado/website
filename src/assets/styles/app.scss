@@ -91,3 +91,13 @@ body {
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
+
+::selection {
+  background-color: #334155;
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background-color: #334155;
+  color: #ffffff;
+}

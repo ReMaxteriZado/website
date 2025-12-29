@@ -7,7 +7,7 @@ import ParticlesAnimation from './ParticlesAnimation.vue'
 
 <template>
   <header id="header">
-    <ParticlesAnimation />
+    <ParticlesAnimation id="header-particles-js" />
 
     <div class="non-touchable-header flex-column justify-content-center pl-5">
       <GoLinkedin />

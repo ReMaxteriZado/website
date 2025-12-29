@@ -148,7 +148,7 @@ $rotating-size: 15px;
     top: 50%;
     right: 50%;
     transform: translate(50%, -50%);
-    z-index: 0;
+    z-index: $scroll-down-z-index;
   }
 }
 </style>

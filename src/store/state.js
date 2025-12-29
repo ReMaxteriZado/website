@@ -5,5 +5,5 @@ export default {
   token: localStorage.getItem('token') || null,
   shrinkAdminView: false,
   adminSidebarVisible: false,
-  showReadMore: false,
+  readMore: null,
 }

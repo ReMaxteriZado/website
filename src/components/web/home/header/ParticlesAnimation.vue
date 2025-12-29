@@ -2,9 +2,15 @@
 // https://github.com/VincentGarreau/particles.js/
 import { onMounted } from 'vue'
 
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+  },
+})
+
 onMounted(() => {
-  // eslint-disable-next-line no-undef
-  const particlesJsDom = document.getElementById('particles-js')
+  const particlesJsDom = document.getElementById(props.id)
 
   const interval = setInterval(() => {
     if (!particlesJsDom) return
@@ -12,7 +18,7 @@ onMounted(() => {
     clearInterval(interval)
 
     // eslint-disable-next-line no-undef
-    particlesJS('particles-js', {
+    particlesJS(props.id, {
       particles: {
         number: {
           value: 40,
@@ -75,13 +81,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="particles-js">
+  <div :id="id" class="particles-js">
     <canvas class="particles-js-canvas-el"></canvas>
   </div>
 </template>
 
 <style lang="scss" scoped>
-#particles-js {
+.particles-js {
   position: absolute;
   width: 100%;
   height: 100%;

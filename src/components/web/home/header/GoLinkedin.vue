@@ -38,7 +38,7 @@ function mouseLeave() {
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 3;
+    z-index: $go-linkedin-z-index;
   }
 
   &.linkedin-animation-enter {

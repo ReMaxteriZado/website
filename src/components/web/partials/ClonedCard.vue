@@ -93,7 +93,7 @@ function followCursor(event, clonedCard) {
 }
 
 function readMore() {
-  store.commit('setShowReadMore', true)
+  store.commit('setReadMore', selectedSkill.value)
 }
 
 defineExpose({
@@ -109,7 +109,7 @@ defineExpose({
     <div class="close-cloned-card flex hover-element" @click="resetSelectedSkill">
       <i class="pi pi-times"></i>
     </div>
-    <div class="read-more" @click="readMore">
+    <div class="read-more hover-element" @click="readMore">
       <span>Read More</span>
     </div>
   </div>
@@ -118,7 +118,7 @@ defineExpose({
 <style lang="scss" scoped>
 .cloned-card {
   position: absolute;
-  z-index: 2;
+  z-index: $cloned-card-z-index;
   transition: all 1s ease;
   transform: translate(-50%, -50%) rotate(45deg);
   width: 20rem;
