@@ -20,22 +20,35 @@ import store from '@/store'
 
 const app = createApp(App)
 
-const color = 'red'
+const primaryColor = 'red'
+const secondaryColor = 'gray'
 
 const stylePreset = definePreset(Aura, {
   semantic: {
     primary: {
-      50: `{${color}.50}`,
-      100: `{${color}.100}`,
-      200: `{${color}.200}`,
-      300: `{${color}.300}`,
-      400: `{${color}.400}`,
-      500: `{${color}.500}`,
-      600: `{${color}.600}`,
-      700: `{${color}.700}`,
-      800: `{${color}.800}`,
-      900: `{${color}.900}`,
-      950: `{${color}.950}`,
+      50: `{${primaryColor}.50}`,
+      100: `{${primaryColor}.100}`,
+      200: `{${primaryColor}.200}`,
+      300: `{${primaryColor}.300}`,
+      400: `{${primaryColor}.400}`,
+      500: `{${primaryColor}.500}`,
+      600: `{${primaryColor}.600}`,
+      700: `{${primaryColor}.700}`,
+      800: `{${primaryColor}.800}`,
+      900: `{${primaryColor}.900}`,
+      950: `{${primaryColor}.950}`,
+    },
+    colorScheme: {
+      light: {
+        secondary: {
+          color: `{${secondaryColor}.800}`,
+        },
+      },
+      dark: {
+        secondary: {
+          color: `{${secondaryColor}.400}`,
+        },
+      },
     },
   },
 })
