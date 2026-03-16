@@ -10,8 +10,8 @@ onMounted(() => {
 
     clearInterval(interval)
     document.addEventListener('mousemove', function (e) {
-      var x = e.clientX
-      var y = e.clientY
+      let x = e.clientX
+      let y = e.clientY
 
       if (!outerCursor.classList.contains('hovering')) {
         outerCursor.style.left = x + 'px'

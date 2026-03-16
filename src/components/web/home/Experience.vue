@@ -67,11 +67,10 @@ const experiences = [
 ]
 
 function calculateTotalMonths() {
-  const startDate = new Date('2020-03-01')
   const endDate = new Date()
-  const years = endDate.getFullYear() - startDate.getFullYear()
-  const months = endDate.getMonth() - startDate.getMonth()
-  totalMonths.value = years * 12 + months
+  const years = endDate.getFullYear() - timelineStart.getFullYear()
+  const months = endDate.getMonth() - timelineStart.getMonth()
+  totalMonths.value = years * 12 + months + 1
 }
 
 function getHeightFromDistance(distance) {
@@ -120,8 +119,8 @@ onUnmounted(() => {
   <div id="experience" class="experience flex flex-column align-items-center">
     <div class="title">Experience</div>
     <div class="timeline">
-      <div class="timeline-inner">
-        <!-- Capa 1: líneas (reciben los refs para la interacción del ratón) -->
+      <div class="timeline-line"></div>
+      <div class="timeline-wrapper">
         <div
           v-for="n in totalMonths"
           :key="`line-${n}`"
@@ -141,20 +140,22 @@ onUnmounted(() => {
         >
           <div class="timeline-months-line"></div>
         </div>
-        <!-- Capa 2: labels (renderizados después de todas las líneas, siempre encima) -->
         <div
           v-for="n in totalMonths"
           :key="`label-${n}`"
-          class="timeline-months-label-wrapper"
+          class="timeline-labels-wrapper"
           :style="{
             width: `calc(100% / ${totalMonths})`,
             left: `calc((100% / ${totalMonths}) * ${n - 1})`,
           }"
         >
-          <span v-if="yearByMonthIndex[n - 1]" class="timeline-tag timeline-year-label">
+          <span v-if="yearByMonthIndex[n - 1]" class="timeline-tag timeline-labels-year">
             {{ yearByMonthIndex[n - 1] }}
           </span>
-          <span v-if="experienceByMonthIndex[n - 1]" class="timeline-tag timeline-months-label">
+          <span
+            v-if="experienceByMonthIndex[n - 1]"
+            class="timeline-tag timeline-labels-company hover-element hover-element-without-bg"
+          >
             {{ experienceByMonthIndex[n - 1].company }}
           </span>
         </div>
@@ -165,8 +166,7 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .experience {
-  padding: 15rem 2rem;
-  overflow: hidden;
+  margin: 15rem 2rem;
 
   .title {
     font-size: 4rem;
@@ -177,45 +177,23 @@ onUnmounted(() => {
     margin-top: 10rem;
     position: relative;
     width: 100vw;
-    height: 2px;
-    padding: 0 4rem;
-    background-color: $primary;
 
-    .timeline-inner {
+    .timeline-line {
       position: absolute;
-      inset: 0;
-      margin: 0 4rem;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      height: 2px;
+      width: 100%;
+      background-color: $primary;
+      opacity: 0.2;
+    }
 
-      .timeline-months-label-wrapper {
-        height: 1rem;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        pointer-events: none;
-
-        .timeline-tag {
-          position: absolute;
-          left: 50%;
-          white-space: nowrap;
-          font-size: 0.75rem;
-          font-weight: 600;
-          transform: translateX(-50%);
-          pointer-events: none;
-          padding: 0.25rem 0.5rem;
-          border-radius: 0.25rem;
-
-          &.timeline-year-label {
-            color: $secondary;
-            bottom: calc(100% + 0.75rem);
-          }
-
-          &.timeline-months-label {
-            color: white;
-            background-color: $secondary;
-            top: 2.5rem;
-          }
-        }
-      }
+    .timeline-wrapper {
+      position: relative;
+      margin: auto;
+      height: 2rem;
+      width: 90%;
 
       .timeline-months {
         height: 1rem;
@@ -233,7 +211,35 @@ onUnmounted(() => {
           background-color: $primary;
           opacity: 0.2;
           transition: height 0.15s ease;
-          z-index: 1;
+        }
+      }
+
+      .timeline-labels-wrapper {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+
+        .timeline-tag {
+          position: absolute;
+          left: 50%;
+          white-space: nowrap;
+          font-size: 0.75rem;
+          font-weight: 600;
+          transform: translateX(-50%);
+          padding: 0.25rem 0.5rem;
+          border-radius: 0.25rem;
+
+          &.timeline-labels-year {
+            background-color: white;
+            color: $secondary;
+            bottom: calc(100% + 0.75rem);
+          }
+
+          &.timeline-labels-company {
+            color: white;
+            background-color: $secondary;
+            top: 2.5rem;
+          }
         }
       }
     }
