@@ -1,6 +1,10 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
+const TITLE_ANIMATION_DURATION = 500
+
+const titleRef = ref(null)
+const titleTextRef = ref(null)
 const totalMonths = ref(0)
 const monthRefs = ref([])
 
@@ -104,9 +108,60 @@ function onMouseMove(e) {
   })
 }
 
+function focusExperience(exp) {
+  console.log('🚀 ~ Experience.vue ~ exp:', exp)
+}
+
 onMounted(() => {
   calculateTotalMonths()
   window.addEventListener('mousemove', onMouseMove)
+
+  let animationIn = false
+  let animationOut = false
+  let mouseIn = false
+
+  titleRef.value.addEventListener('mouseenter', () => {
+    mouseIn = true
+    startAnimationIn()
+  })
+
+  titleRef.value.addEventListener('mouseleave', () => {
+    mouseIn = false
+    startAnimationOut()
+  })
+
+  function startAnimationIn() {
+    if (!animationOut) {
+      animationIn = true
+      titleRef.value.classList.add('start-animation')
+      titleTextRef.value.classList.add('white')
+
+      setTimeout(() => {
+        animationIn = false
+
+        if (!mouseIn) {
+          startAnimationOut()
+        }
+      }, TITLE_ANIMATION_DURATION)
+    }
+  }
+
+  function startAnimationOut() {
+    if (!animationIn) {
+      animationOut = true
+      titleRef.value.classList.add('end-animation')
+      titleTextRef.value.classList.remove('white')
+
+      setTimeout(() => {
+        titleRef.value.classList.remove('start-animation', 'end-animation')
+        animationOut = false
+
+        if (mouseIn) {
+          startAnimationIn()
+        }
+      }, TITLE_ANIMATION_DURATION)
+    }
+  }
 })
 
 onUnmounted(() => {
@@ -117,7 +172,15 @@ onUnmounted(() => {
 
 <template>
   <div id="experience" class="experience flex flex-column align-items-center">
-    <div class="title">Experience</div>
+    <div
+      ref="titleRef"
+      class="title-wrapper flex justify-content-center align-items-center px-3 py-2"
+      :style="{ '--title-animation-duration': TITLE_ANIMATION_DURATION + 'ms' }"
+    >
+      <div ref="titleTextRef" class="title">Experience</div>
+      <div class="moving-title-background"></div>
+    </div>
+
     <div class="timeline">
       <div class="timeline-line"></div>
       <div class="timeline-wrapper">
@@ -155,6 +218,7 @@ onUnmounted(() => {
           <span
             v-if="experienceByMonthIndex[n - 1]"
             class="timeline-tag timeline-labels-company hover-element hover-element-without-bg"
+            @click="focusExperience(experienceByMonthIndex[n - 1])"
           >
             {{ experienceByMonthIndex[n - 1].company }}
           </span>
@@ -166,17 +230,70 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .experience {
-  margin: 15rem 2rem;
+  margin: 15rem 0;
 
-  .title {
-    font-size: 4rem;
-    font-weight: bold;
+  .title-wrapper {
+    position: relative;
+    overflow: hidden;
+
+    .title {
+      font-size: 4rem;
+      font-weight: bold;
+      z-index: 1;
+      transition: color var(--title-animation-duration) ease-out;
+
+      &.white {
+        color: white;
+      }
+    }
+
+    .moving-title-background {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0px;
+      height: 100%;
+      background-color: $secondary;
+      border-radius: 0.25rem;
+    }
+
+    &.start-animation {
+      .moving-title-background {
+        animation: expandWidth var(--title-animation-duration) ease-out forwards;
+
+        @keyframes expandWidth {
+          from {
+            width: 0;
+          }
+          to {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    &.end-animation {
+      .moving-title-background {
+        animation: shrinkWidth var(--title-animation-duration) ease-out forwards;
+        left: unset;
+        right: 0;
+
+        @keyframes shrinkWidth {
+          from {
+            width: 100%;
+          }
+          to {
+            width: 0;
+          }
+        }
+      }
+    }
   }
 
   .timeline {
     margin-top: 10rem;
     position: relative;
-    width: 100vw;
+    width: 100%;
 
     .timeline-line {
       position: absolute;
