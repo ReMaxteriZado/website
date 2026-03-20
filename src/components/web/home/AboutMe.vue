@@ -1,9 +1,54 @@
-<script setup></script>
+<script setup>
+import { onMounted, ref } from 'vue'
+
+let rafId = null
+const verticalLineWidth = ref(0)
+
+function listenTitleHover() {
+  const title = document.querySelector('#about-me .about-me-title')
+
+  title.addEventListener('mouseenter', () => {
+    cancelAnimationFrame(rafId)
+
+    function expandStep() {
+      const remaining = 100 - verticalLineWidth.value
+      if (remaining < 0.2) {
+        verticalLineWidth.value = 100
+        return
+      }
+      verticalLineWidth.value += remaining * 0.1
+      rafId = requestAnimationFrame(expandStep)
+    }
+
+    rafId = requestAnimationFrame(expandStep)
+  })
+
+  title.addEventListener('mouseleave', () => {
+    cancelAnimationFrame(rafId)
+
+    function collapseStep() {
+      const remaining = verticalLineWidth.value
+      if (remaining < 0.2) {
+        verticalLineWidth.value = 0
+        return
+      }
+      verticalLineWidth.value -= remaining * 0.1
+      rafId = requestAnimationFrame(collapseStep)
+    }
+
+    rafId = requestAnimationFrame(collapseStep)
+  })
+}
+
+onMounted(() => {
+  listenTitleHover()
+})
+</script>
 
 <template>
   <div id="about-me" class="about-me">
     <div class="about-me-title">
-      <div class="vertical-line">
+      <div class="vertical-line" :style="{ width: verticalLineWidth + '%' }">
         <div class="title vertical-line-title">About me</div>
       </div>
       <div class="title">About me</div>
@@ -34,7 +79,6 @@
       left: 0;
       width: 0;
       height: 5rem;
-      transition: all 0.3s ease;
       z-index: 1;
       border-right: 7px solid $primary;
 
@@ -50,23 +94,11 @@
       top: 0;
       left: calc(7px + 1rem);
       height: 100%;
-      width: 100%;
+      width: calc(100% - 7px - 1rem);
       font-size: 4rem;
       font-weight: bold;
       white-space: nowrap;
       z-index: 0;
-    }
-
-    &:hover {
-      .vertical-line {
-        animation: move-to-left 1s forwards;
-      }
-
-      @keyframes move-to-left {
-        to {
-          width: 100%;
-        }
-      }
     }
   }
 
