@@ -1,8 +1,10 @@
 <script setup>
+import { useStore } from 'vuex'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
 const TITLE_ANIMATION_DURATION = 500
 
+const store = useStore()
 const titleRef = ref(null)
 const titleTextRef = ref(null)
 const totalMonths = ref(0)
@@ -43,9 +45,8 @@ const experiences = [
     role: 'Full Stack Developer',
     startDate: '2020-03-01',
     endDate: '2022-04-30',
-    description: `
-    I worked for two years in the development of websites and applications for different clients, using different technologies according to the needs of each project.
-
+    image: 'tcatik.png',
+    description: `I worked for two years in the development of websites and applications for different clients, using different technologies according to the needs of each project.
     I have participated in more than ten large-scale projects and many smaller ones.`,
   },
   {
@@ -53,9 +54,8 @@ const experiences = [
     role: 'Full Stack Developer',
     startDate: '2022-04-01',
     endDate: '2023-11-30',
-    description: `
-    I was main developer of multiple projects such as websites, administration panels and APIs for mobile applications.
-
+    image: 'occam.png',
+    description: `I was main developer of multiple projects such as websites, administration panels and APIs for mobile applications.
     The biggest project I worked on (and I was also the only developer) was an ERP system in which more than a hundred people work on a daily basis.`,
   },
   {
@@ -63,9 +63,8 @@ const experiences = [
     role: 'Front End Developer',
     startDate: '2023-12-01',
     endDate: 'Present',
-    description: `
-    I am currently working as a full time frontend developer, using technologies such as VueJS 3, JS and SCSS.
-
+    image: 'gesein.png',
+    description: `I am currently working as a full time frontend developer, using technologies such as VueJS 3, JS and SCSS.
     I am using Agile and Scrum methodologies for the development of the various projects I am working on.`,
   },
 ]
@@ -109,7 +108,21 @@ function onMouseMove(e) {
 }
 
 function focusExperience(exp) {
-  console.log('🚀 ~ Experience.vue ~ exp:', exp)
+  const readMoreObject = {
+    label: exp.company,
+    image: exp.image,
+    description: `${exp.role} | ${exp.startDate} to ${exp.endDate}
+      
+      ${exp.description}
+    `,
+    getImageUrl,
+  }
+
+  store.commit('setReadMore', readMoreObject)
+}
+
+function getImageUrl(imageName) {
+  return new URL(`../../../assets/images/companies/${imageName}`, import.meta.url).href
 }
 
 onMounted(() => {

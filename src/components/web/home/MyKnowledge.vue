@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import ClonedCard from '@/components/web/partials/ClonedCard.vue'
-import ReadMore from '@/components/web/home/ReadMore.vue'
 
 const skills = [
   {
@@ -69,7 +68,6 @@ function getImageUrl(imageName, fromCropped = false) {
     id="my-knowledge"
     class="my-knowledge flex align-items-center justify-content-center flex-column"
   >
-    <ReadMore :get-image-url="getImageUrl" />
     <ClonedCard ref="clonedCardRef" :get-image-url="getImageUrl" />
     <h2 class="title">My Knowledge</h2>
     <div class="carousel-container">

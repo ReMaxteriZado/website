@@ -2,7 +2,7 @@
 import { nextTick, ref } from 'vue'
 import { useStore } from 'vuex'
 
-defineProps({
+const props = defineProps({
   getImageUrl: {
     type: Function,
     required: true,
@@ -93,6 +93,7 @@ function followCursor(event, clonedCard) {
 }
 
 function readMore() {
+  selectedSkill.value.getImageUrl = props.getImageUrl
   store.commit('setReadMore', selectedSkill.value)
 }
 
