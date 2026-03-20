@@ -10,6 +10,7 @@ import AboutMe from '@/components/web/home/AboutMe.vue'
 import MyKnowledge from '@/components/web/home/MyKnowledge.vue'
 import ReadMore from '@/components/web/home/ReadMore.vue'
 import Experience from '@/components/web/home/Experience.vue'
+import MyGithub from '@/components/web/home/MyGithub.vue'
 import Footer from '@/components/web/home/Footer.vue'
 
 const store = useStore()
@@ -34,15 +35,20 @@ watch(
 
 <template>
   <main>
+    <!-- Extra modules -->
     <FollowCursor />
     <NavbarComponent />
+    <ReadMore />
 
+    <!-- Main content -->
     <HeaderComponent />
     <ScrollDown />
     <AboutMe />
     <MyKnowledge />
     <Experience />
-    <ReadMore />
+    <MyGithub />
+
+    <!-- Footer -->
     <Footer />
   </main>
 </template>

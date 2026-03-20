@@ -8,6 +8,10 @@ import { definePreset } from '@primeuix/themes'
 import 'primeflex/primeflex.css'
 import 'primeicons/primeicons.css'
 
+// Highlight.js
+import hljsVuePlugin from '@highlightjs/vue-plugin'
+import 'highlight.js/styles/github-dark.css'
+
 // Styles
 import '@/assets/fonts/fonts.css'
 import '@/assets/styles/app.scss'
@@ -63,6 +67,7 @@ app.use(PrimeVue, {
 })
 app.use(ToastService)
 app.use(ConfirmationService)
+app.use(hljsVuePlugin)
 
 app.mount('#app')
 
