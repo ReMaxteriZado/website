@@ -107,7 +107,7 @@ function getImageUrl(imageName, fromCropped = false) {
   color: white;
   overflow: hidden;
   position: relative;
-  height: 50rem;
+  height: 100vh;
 
   .title {
     font-size: 3rem;
