@@ -9,6 +9,7 @@ onMounted(() => {
     if (!outerCursor || !innerCursor) return
 
     clearInterval(interval)
+
     document.addEventListener('mousemove', function (e) {
       let x = e.clientX
       let y = e.clientY
@@ -65,9 +66,9 @@ onMounted(() => {
       outerCursor.classList.remove('hovering')
       outerCursor.classList.remove('hovering-without-bg')
 
-      outerCursor.style.width = `40px`
-      outerCursor.style.height = `40px`
-      outerCursor.style.borderRadius = `100%`
+      outerCursor.style.width = "40px"
+      outerCursor.style.height = "40px"
+      outerCursor.style.borderRadius = "100%"
     })
 
     const observer = new MutationObserver(() => {
@@ -79,9 +80,9 @@ onMounted(() => {
         outerCursor.classList.remove('hovering')
         outerCursor.classList.remove('hovering-without-bg')
 
-        outerCursor.style.width = `40px`
-        outerCursor.style.height = `40px`
-        outerCursor.style.borderRadius = `100%`
+        outerCursor.style.width = "40px"
+        outerCursor.style.height = "40px"
+        outerCursor.style.borderRadius = "100%"
       }
     })
 
