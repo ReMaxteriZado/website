@@ -85,8 +85,13 @@ function followCursor(event, clonedCard) {
     const rotateY = (deltaX / rect.width) * 10
     const rotateX = -(deltaY / rect.height) * 10
 
+    const mouseXPercent = ((event.clientX - rect.left) / rect.width) * 100
+    const mouseYPercent = ((event.clientY - rect.top) / rect.height) * 100
+
     clonedCard.style.transition = 'unset'
     clonedCard.style.transform = `translate(-50%, -50%) rotate(0deg) scale(1.3) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+    clonedCard.style.setProperty('--mouse-x', `${mouseXPercent}%`)
+    clonedCard.style.setProperty('--mouse-y', `${mouseYPercent}%`)
 
     followCursorRAF = null
   })
@@ -118,6 +123,9 @@ defineExpose({
 
 <style lang="scss" scoped>
 .cloned-card {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+
   position: absolute;
   z-index: $cloned-card-z-index;
   transition: all 1s ease;
@@ -132,6 +140,21 @@ defineExpose({
   font-size: 2rem;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
   will-change: transform;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      circle at var(--mouse-x) var(--mouse-y),
+      rgba(255, 255, 255, 0.18) 0%,
+      transparent 65%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
 
   .close-cloned-card {
     position: absolute;

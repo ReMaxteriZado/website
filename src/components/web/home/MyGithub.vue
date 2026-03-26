@@ -1,40 +1,86 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import components from '@/assets/data/components.js'
 
-const minimized = ref(new Set())
+const componentsRef = ref(components)
 
-function minimize(key) {
-  minimized.value = new Set([...minimized.value, key])
+function everyCodeIsMinimized(component) {
+  return component.codes.every((code) => code.isMinimized)
 }
 
-function expand(key) {
-  const next = new Set(minimized.value)
-  next.delete(key)
-  minimized.value = next
+function toggleComponent(component) {
+  const shouldMinimize = !everyCodeIsMinimized(component)
+  component.codes.forEach((code) => {
+    code.isMinimized = shouldMinimize
+  })
 }
+
+function minimize(code) {
+  code.isMinimized = true
+}
+
+function expand(code) {
+  code.isMinimized = false
+}
+
+onMounted(() => {
+  componentsRef.value.forEach((component, index) => {
+    if (index > 0) {
+      component.codes.forEach((code) => {
+        code.isMinimized = true
+      })
+    }
+  })
+})
 </script>
 
 <template>
   <div id="my-github" class="my-github">
-    <img src="@/assets/images/github.svg" alt="GitHub" class="github-logo" />
+    <img src="@/assets/images/github.svg" alt="GitHub" class="github-logo mb-5" />
 
-    <div class="codes-container grid m-0">
-      <template v-for="(component, index) in components" :key="index">
-        <div v-for="(code, codeIndex) in component.codes" :key="codeIndex" class="col:12 md:col-6">
-          <div
-            class="github-code"
-            :class="{ 'is-minimized': minimized.has(`${index}-${codeIndex}`) }"
-          >
-            <div class="actions">
-              <div class="action action-close"></div>
-              <div class="action action-minimize" @click="minimize(`${index}-${codeIndex}`)"></div>
-              <div class="action action-maximize" @click="expand(`${index}-${codeIndex}`)"></div>
-            </div>
-            <highlightjs :language="code.language" :code="code.code" />
+    <div class="codes-container">
+      <div
+        v-for="(component, index) in componentsRef"
+        :key="index"
+        class="code-block grid p-2 mb-5"
+      >
+        <div class="title col-12">
+          <div class="text-2xl font-bold text-primary">{{ component.name }}</div>
+          <div class="title-actions flex gap-3 align-items-center">
+            <i
+              class="pi pi-objects-column text-xs text-gray-400 hover-element"
+              v-tooltip.top="{ value: 'Go to the component', showDelay: 300 }"
+            ></i>
+            <i
+              class="pi text-xs text-gray-400 hover-element"
+              :class="[
+                everyCodeIsMinimized(component)
+                  ? 'pi-arrow-up-right-and-arrow-down-left-from-center'
+                  : 'pi-arrow-down-left-and-arrow-up-right-to-center',
+              ]"
+              @click="toggleComponent(component)"
+            ></i>
           </div>
         </div>
-      </template>
+        <div class="col-12 text-xs pt-0 text-gray-400">{{ component.description }}</div>
+        <template v-for="(code, codeIndex) in component.codes" :key="codeIndex">
+          <div :class="[code.columnWidth ? code.columnWidth : `col-12 md:col-6`]">
+            <div class="code" :class="{ 'is-minimized': code.isMinimized }">
+              <div class="flex align-items-center justify-content-between">
+                <div class="actions">
+                  <div class="action action-close hover-element"></div>
+                  <div class="action action-minimize hover-element" @click="minimize(code)"></div>
+                  <div class="action action-maximize hover-element" @click="expand(code)"></div>
+                </div>
+                <div class="language text-xs text-gray-400 uppercase">
+                  {{ code.language }}
+                </div>
+              </div>
+              <highlightjs :language="code.language" :code="code.code" />
+            </div>
+          </div>
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -54,55 +100,69 @@ function expand(key) {
     width: 100%;
     max-width: 1200px;
 
-    .github-code {
-      background-color: #282c34;
-      color: #abb2bf;
-      padding: 1rem;
+    .code-block {
+      border: 1px solid #e5e5e5;
       border-radius: 0.5rem;
-      overflow: hidden;
+      background-color: #f5f5f5;
 
-      .actions {
-        display: flex;
-        gap: 0.5rem;
+      .title {
+        position: relative;
 
-        .action {
-          width: 0.75rem;
-          height: 0.75rem;
-          border-radius: 50%;
-
-          &.action-close {
-            background-color: #e06c75;
-          }
-
-          &.action-minimize {
-            background-color: #e5c07b;
-          }
-
-          &.action-maximize {
-            background-color: #98c379;
-          }
+        .title-actions {
+          position: absolute;
+          top: 0.25rem;
+          right: 0.25rem;
         }
       }
 
-      :deep(pre) {
+      .code {
+        background-color: #282c34;
+        color: #abb2bf;
+        padding: 1rem;
         border-radius: 0.5rem;
-        margin: 0;
-        margin-top: 1rem;
+        overflow: hidden;
 
-        code {
-          max-height: 20rem;
+        .actions {
+          display: flex;
+          gap: 0.5rem;
+
+          .action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+
+            &.action-close {
+              background-color: #e06c75;
+            }
+
+            &.action-minimize {
+              background-color: #e5c07b;
+            }
+
+            &.action-maximize {
+              background-color: #98c379;
+            }
+          }
         }
-      }
 
-      &.is-minimized {
         :deep(pre) {
-          display: none;
-        }
-      }
+          border-radius: 0.5rem;
+          margin: 0;
+          margin-top: 1rem;
 
-      .action-minimize,
-      .action-maximize {
-        cursor: pointer;
+          code {
+            height: 20rem;
+          }
+        }
+
+        &.is-minimized {
+          :deep(pre) {
+            display: none;
+          }
+        }
       }
     }
   }

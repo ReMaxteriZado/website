@@ -59,7 +59,7 @@ const experiences = [
     The biggest project I worked on (and I was also the only developer) was an ERP system in which more than a hundred people work on a daily basis.`,
   },
   {
-    company: 'GESEIN S.L.',
+    company: 'GESEIN',
     role: 'Front End Developer',
     startDate: '2023-12-01',
     endDate: 'Present',
