@@ -98,7 +98,9 @@ function onMouseMove(e) {
       const rect = el.getBoundingClientRect()
       const closestX = Math.max(rect.left, Math.min(cursorX, rect.right))
       const closestY = Math.max(rect.top, Math.min(cursorY, rect.bottom))
-      const distance = Math.sqrt((cursorX - closestX) ** 2 + (cursorY - closestY) ** 2)
+      const dx = cursorX - closestX
+      const dy = (cursorY - closestY) / 4
+      const distance = Math.sqrt(dx ** 2 + dy ** 2)
       const minHeight = el.dataset.company ? 3 : 1
       lineEl.style.height = `${Math.max(minHeight, getHeightFromDistance(distance))}rem`
     })

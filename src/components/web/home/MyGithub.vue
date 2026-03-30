@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import components from '@/assets/data/components.js'
 
 const componentsRef = ref(components)
@@ -23,6 +23,42 @@ function expand(code) {
   code.isMinimized = false
 }
 
+function scrollTo(selector) {
+  const element = document.querySelector(selector)
+  if (!element) return
+
+  window.scrollTo({
+    top: element.getBoundingClientRect().top + window.pageYOffset - 20,
+    behavior: 'smooth',
+  })
+}
+
+let blockRAF = null
+
+function onGlobalMouseMove(event) {
+  if (blockRAF) cancelAnimationFrame(blockRAF)
+  const clientX = event.clientX
+  const clientY = event.clientY
+  blockRAF = requestAnimationFrame(() => {
+    document.querySelectorAll('.code-block').forEach((el) => {
+      const rect = el.getBoundingClientRect()
+      const centerX = rect.left + rect.width / 2
+      const centerY = rect.top + rect.height / 2
+      const deltaX = clientX - centerX
+      const deltaY = clientY - centerY
+      const rotateY = (deltaX / rect.width) * 3
+      const rotateX = -(deltaY / rect.height) * 3
+      el.style.transition = 'none'
+      el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+    })
+    blockRAF = null
+  })
+}
+
+onUnmounted(() => {
+  window.removeEventListener('mousemove', onGlobalMouseMove)
+})
+
 onMounted(() => {
   componentsRef.value.forEach((component, index) => {
     if (index > 0) {
@@ -31,6 +67,7 @@ onMounted(() => {
       })
     }
   })
+  window.addEventListener('mousemove', onGlobalMouseMove)
 })
 </script>
 
@@ -48,6 +85,8 @@ onMounted(() => {
           <div class="text-2xl font-bold text-primary">{{ component.name }}</div>
           <div class="title-actions flex gap-3 align-items-center">
             <i
+              v-if="component.goToComponent"
+              @click="scrollTo(component.goToComponent, 500, { offset: -100 })"
               class="pi pi-objects-column text-xs text-gray-400 hover-element"
               v-tooltip.top="{ value: 'Go to the component', showDelay: 300 }"
             ></i>
@@ -97,71 +136,69 @@ onMounted(() => {
   }
 
   .codes-container {
-    width: 100%;
+    width: 90%;
     max-width: 1200px;
 
     .code-block {
       border: 1px solid #e5e5e5;
       border-radius: 0.5rem;
       background-color: #f5f5f5;
+      transition: all 1s ease;
+      will-change: transform;
 
-      .title {
-        position: relative;
+      .title-actions {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+      }
+    }
 
-        .title-actions {
-          position: absolute;
-          top: 0.25rem;
-          right: 0.25rem;
+    .code {
+      background-color: #282c34;
+      color: #abb2bf;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      overflow: hidden;
+
+      .actions {
+        display: flex;
+        gap: 0.5rem;
+
+        .action {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 0.75rem;
+          height: 0.75rem;
+          border-radius: 50%;
+
+          &.action-close {
+            background-color: #e06c75;
+          }
+
+          &.action-minimize {
+            background-color: #e5c07b;
+          }
+
+          &.action-maximize {
+            background-color: #98c379;
+          }
         }
       }
 
-      .code {
-        background-color: #282c34;
-        color: #abb2bf;
-        padding: 1rem;
+      :deep(pre) {
         border-radius: 0.5rem;
-        overflow: hidden;
+        margin: 0;
+        margin-top: 1rem;
 
-        .actions {
-          display: flex;
-          gap: 0.5rem;
-
-          .action {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 0.75rem;
-            height: 0.75rem;
-            border-radius: 50%;
-
-            &.action-close {
-              background-color: #e06c75;
-            }
-
-            &.action-minimize {
-              background-color: #e5c07b;
-            }
-
-            &.action-maximize {
-              background-color: #98c379;
-            }
-          }
+        code {
+          height: 20rem;
         }
+      }
 
+      &.is-minimized {
         :deep(pre) {
-          border-radius: 0.5rem;
-          margin: 0;
-          margin-top: 1rem;
-
-          code {
-            height: 20rem;
-          }
-        }
-
-        &.is-minimized {
-          :deep(pre) {
-            display: none;
-          }
+          display: none;
         }
       }
     }
