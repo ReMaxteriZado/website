@@ -1,10 +1,12 @@
 <script setup>
 import { useStore } from 'vuex'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const TITLE_ANIMATION_DURATION = 500
 
 const store = useStore()
+const { t } = useI18n()
 const titleRef = ref(null)
 const titleTextRef = ref(null)
 const totalMonths = ref(0)
@@ -21,7 +23,7 @@ function monthIndex(dateStr) {
 
 const experienceByMonthIndex = computed(() => {
   const map = {}
-  experiences.forEach((exp) => {
+  experiences.value.forEach((exp) => {
     map[monthIndex(exp.startDate)] = exp
   })
   return map
@@ -39,35 +41,32 @@ const yearByMonthIndex = computed(() => {
   }
   return map
 })
-const experiences = [
+const experiences = computed(() => [
   {
     company: 'TCA-TIK',
-    role: 'Full Stack Developer',
+    role: t('experience.tcatik.role'),
     startDate: '2020-03-01',
     endDate: '2022-04-30',
     image: 'tcatik.png',
-    description: `I worked for two years in the development of websites and applications for different clients, using different technologies according to the needs of each project.
-    I have participated in more than ten large-scale projects and many smaller ones.`,
+    description: t('experience.tcatik.description'),
   },
   {
     company: 'OCCAM AGENCIA DIGITAL',
-    role: 'Full Stack Developer',
+    role: t('experience.occam.role'),
     startDate: '2022-04-01',
     endDate: '2023-11-30',
     image: 'occam.png',
-    description: `I was main developer of multiple projects such as websites, administration panels and APIs for mobile applications.
-    The biggest project I worked on (and I was also the only developer) was an ERP system in which more than a hundred people work on a daily basis.`,
+    description: t('experience.occam.description'),
   },
   {
     company: 'GESEIN',
-    role: 'Front End Developer',
+    role: t('experience.gesein.role'),
     startDate: '2023-12-01',
     endDate: 'Present',
     image: 'gesein.png',
-    description: `I am currently working as a full time frontend developer, using technologies such as VueJS 3, JS and SCSS.
-    I am using Agile and Scrum methodologies for the development of the various projects I am working on.`,
+    description: t('experience.gesein.description'),
   },
-]
+])
 
 function calculateTotalMonths() {
   const endDate = new Date()
@@ -192,7 +191,7 @@ onUnmounted(() => {
       class="title-wrapper flex justify-content-center align-items-center px-3 py-2"
       :style="{ '--title-animation-duration': TITLE_ANIMATION_DURATION + 'ms' }"
     >
-      <div ref="titleTextRef" class="title">Experience</div>
+      <div ref="titleTextRef" class="title">{{ t('home.experienceTitle') }}</div>
       <div class="moving-title-background"></div>
     </div>
 

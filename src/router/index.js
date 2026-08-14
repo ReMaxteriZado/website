@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import AdminView from '@/views/AdminView.vue'
+import i18n, { defaultLocale, supportedLocales } from '@/i18n'
 
 // Admin routes
 import DashboardView from '@/views/admin/DashboardView.vue'
@@ -24,7 +25,11 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'Inicio',
+      redirect: `/${i18n.global.locale.value}/`,
+    },
+    {
+      path: '/:locale(en|es)/',
+      name: 'Home',
       component: HomeView,
     },
     {
@@ -55,6 +60,14 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
+
+  if (to.name === 'Home') {
+    const locale = to.params.locale
+    if (!supportedLocales.includes(locale)) {
+      return next({ name: 'Home', params: { locale: defaultLocale }, hash: to.hash })
+    }
+    i18n.global.locale.value = locale
+  }
 
   if (to.name === 'Login' && token) {
     next({ name: 'Dashboard' })

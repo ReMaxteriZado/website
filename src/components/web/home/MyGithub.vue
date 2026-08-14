@@ -1,8 +1,14 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import components from '@/assets/data/components.js'
 
+const { t } = useI18n()
 const componentsRef = ref(components)
+
+function getComponentDescription(component) {
+  return t(component.descriptionKey)
+}
 
 function everyCodeIsMinimized(component) {
   return component.codes.every((code) => code.isMinimized)
@@ -94,7 +100,7 @@ onMounted(() => {
               v-if="component.goToComponent"
               @click="scrollTo(component.goToComponent, 500, { offset: -100 })"
               class="pi pi-objects-column text-xs text-gray-400 hover-element"
-              v-tooltip.top="{ value: 'Go to the component', showDelay: 300 }"
+              v-tooltip.top="{ value: t('github.goToComponent'), showDelay: 300 }"
             ></i>
             <i
               class="pi text-xs text-gray-400 hover-element"
@@ -107,7 +113,9 @@ onMounted(() => {
             ></i>
           </div>
         </div>
-        <div class="col-12 text-xs pt-0 text-gray-400">{{ component.description }}</div>
+        <div class="col-12 text-xs pt-0 text-gray-400">
+          {{ getComponentDescription(component) }}
+        </div>
         <template v-for="(code, codeIndex) in component.codes" :key="codeIndex">
           <div :class="[code.columnWidth ? code.columnWidth : `col-12 md:col-6`]">
             <div class="code" :class="{ 'is-minimized': code.isMinimized }">

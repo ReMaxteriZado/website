@@ -1,47 +1,46 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import ClonedCard from '@/components/web/partials/ClonedCard.vue'
 
-const skills = [
+const { t } = useI18n()
+const skillDefinitions = [
   {
     label: 'Vue.JS',
+    key: 'vue',
     image: 'vue.png',
-    description:
-      'I have solid experience with Vue.js, building dynamic, component-based user interfaces for modern web applications. I work with reactive data, computed properties, lifecycle hooks, and state management to create scalable and maintainable solutions. I focus on reusable components, clean separation of concerns, and efficient communication between components. I also integrate APIs, handle asynchronous data flows, and optimize performance. Vue.js allows me to deliver fast, user-friendly interfaces while maintaining clean code and a structured architecture suitable for long-term projects.',
   },
   {
     label: 'JavaScript',
+    key: 'javascript',
     image: 'js.png',
-    description:
-      'I have over five years of experience working with JavaScript, using it as the core language for building modern web applications. I am comfortable with ES6+ features, asynchronous programming, and event-driven architectures. My work includes DOM manipulation, state management, API integration, and performance optimization. I focus on writing clean, readable, and scalable code that is easy to maintain over time. JavaScript has allowed me to adapt quickly to new frameworks and tools, understand browser behavior in depth, and deliver interactive, efficient, and user-focused solutions.',
   },
   {
     label: 'SASS',
+    key: 'sass',
     image: 'sass.png',
-    description:
-      'I use SASS to write more structured, scalable, and maintainable stylesheets. By leveraging variables, mixins, functions, partials, and nesting, I keep styles consistent and easy to manage across large projects. SASS allows me to implement design systems efficiently and reduce repetition in CSS codebases. I organize styles following clear architectures, making collaboration with other developers smoother. My experience with SASS helps speed up development, improve readability, and ensure that styling remains flexible and easy to extend as projects grow and evolve.',
   },
   {
     label: 'CSS3',
+    key: 'css',
     image: 'css3.png',
-    description:
-      'I have extensive experience with CSS3, creating responsive, visually appealing, and performant user interfaces. I work confidently with Flexbox, Grid, animations, transitions, and media queries to ensure layouts adapt seamlessly across devices and screen sizes. I focus on maintainable styling strategies, consistent design systems, and reusable patterns. I also optimize CSS for performance by reducing redundancy and avoiding unnecessary complexity. My approach balances aesthetics with usability, ensuring interfaces are not only visually polished but also intuitive, accessible, and aligned with modern web standards.',
   },
   {
     label: 'HTML5',
+    key: 'html',
     image: 'html5.png',
-    description:
-      'I have strong experience with HTML5, using it to build clean, semantic, and accessible structures for modern web applications. I focus on writing well-organized markup that improves SEO, performance, and maintainability. I regularly work with semantic tags, forms, multimedia elements, and accessibility best practices (ARIA roles, proper labeling, and logical document structure). HTML5 is the foundation of my frontend work, ensuring that applications are robust, scalable, and easy to integrate with CSS, JavaScript, and modern frameworks. I also pay close attention to cross-browser compatibility and standards compliance.',
   },
   {
     label: 'Git',
+    key: 'git',
     image: 'git.png',
-    description:
-      'I use Git daily as my primary version control system, both individually and in team environments. I am comfortable with branching strategies, merging, resolving conflicts, and maintaining a clean commit history. Git enables me to collaborate efficiently, track changes, and manage multiple features or fixes simultaneously. I follow best practices such as meaningful commit messages and organized workflows. My experience with Git ensures code stability, smooth collaboration, and reliable project maintenance throughout the entire development lifecycle.',
   },
 ]
+const skills = computed(() =>
+  skillDefinitions.map((skill) => ({ ...skill, description: t(`skills.${skill.key}`) })),
+)
 const clonedCardRef = ref(null)
-const randomizedSkills = shuffle([...skills, ...skills])
+const randomizedSkills = computed(() => shuffle([...skills.value, ...skills.value]))
 
 async function handleExpandSkill(event, skill) {
   clonedCardRef.value.expandSkill(event, skill)
@@ -69,7 +68,7 @@ function getImageUrl(imageName, fromCropped = false) {
     class="my-knowledge flex align-items-center justify-content-center flex-column"
   >
     <ClonedCard ref="clonedCardRef" :get-image-url="getImageUrl" />
-    <h2 class="title">My Knowledge</h2>
+    <h2 class="title">{{ t('home.knowledgeTitle') }}</h2>
     <div class="carousel-container">
       <template v-for="n in 4" :key="n">
         <div class="carousel odd-carousel">

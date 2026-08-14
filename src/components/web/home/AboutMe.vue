@@ -1,5 +1,8 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 let rafId = null
 const verticalLineWidth = ref(0)
@@ -51,17 +54,13 @@ onMounted(() => {
   <div id="about-me" class="about-me">
     <div class="about-me-title">
       <div class="vertical-line" :style="{ width: verticalLineWidth + '%' }">
-        <div class="title vertical-line-title">About me</div>
+        <div class="title vertical-line-title">{{ t('home.aboutTitle') }}</div>
       </div>
-      <div class="title">About me</div>
+      <div class="title">{{ t('home.aboutTitle') }}</div>
     </div>
     <div class="about-me-content mt-5">
-      <span
-        >I am a FrontEnd developer with advanced knowledge in VueJS, JS, SASS and animations. I
-        specialize in web layout, responsive and animations, and I would like to focus my career in
-        that direction.</span
-      >
-      <span>I consider myself a responsible, hardworking and eager to learn person.</span>
+      <span>{{ t('home.aboutParagraphs[0]') }}</span>
+      <span>{{ t('home.aboutParagraphs[1]') }}</span>
     </div>
   </div>
 </template>

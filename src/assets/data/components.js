@@ -1,8 +1,7 @@
 const components = [
   {
     name: 'NonTouchableWords.vue',
-    description:
-      'A component that displays the title words, and the user can "paint" them when hovering the mouse over them.',
+    descriptionKey: 'github.descriptions.nonTouchableWords',
     goToComponent: '.non-touchable-header',
     codes: [
       {
@@ -22,8 +21,7 @@ const components = [
   },
   {
     name: 'ScrollDown.vue',
-    description:
-      'A scroll down indicator that animates to indicate to users that they can scroll down for more content.',
+    descriptionKey: 'github.descriptions.scrollDown',
     goToComponent: '.scroll-down',
     codes: [
       {
@@ -43,8 +41,7 @@ const components = [
   },
   {
     name: 'FollowCursor.vue',
-    description:
-      'Custom cursor that follows the mouse movement and changes its appearance when hovering over specific elements.',
+    descriptionKey: 'github.descriptions.followCursor',
     codes: [
       {
         language: 'javascript',

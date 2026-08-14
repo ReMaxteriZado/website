@@ -1,6 +1,7 @@
 <script setup>
 import { nextTick, ref } from 'vue'
 import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   getImageUrl: {
@@ -10,6 +11,7 @@ const props = defineProps({
 })
 
 const store = useStore()
+const { t } = useI18n()
 const selectedSkill = ref(null)
 let followCursorRAF = null
 let followCursorListener = null
@@ -116,7 +118,7 @@ defineExpose({
       <i class="pi pi-times"></i>
     </div>
     <div class="read-more hover-element" @click="readMore">
-      <span>Read More</span>
+      <span>{{ t('home.readMore') }}</span>
     </div>
   </div>
 </template>

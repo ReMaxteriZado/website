@@ -1,5 +1,8 @@
 <script setup>
 import { onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 onMounted(() => {
   const text = document.querySelector('.text')
@@ -86,7 +89,9 @@ onMounted(() => {
     <div class="rotating-text">
       <div class="text">
         <p>
-          <template v-for="n in 4" :key="n">&nbsp;&nbsp;Scroll down&nbsp;&nbsp;</template>
+          <template v-for="n in 4" :key="n"
+            >&nbsp;&nbsp;{{ t('home.scrollDown') }}&nbsp;&nbsp;</template
+          >
         </p>
       </div>
     </div>

@@ -1,5 +1,7 @@
 # website
 
+Portfolio web en Vue 3 con soporte de idiomas para la web pública.
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
@@ -27,6 +29,12 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### Idiomas
+
+La página principal está disponible en español e inglés mediante las rutas `/es/` y `/en/`.
+El selector de idioma se encuentra en el footer y mantiene el idioma seleccionado en la URL.
+Las rutas de login y administración (`/login` y `/admin/*`) permanecen en español.
 
 ### Lint with [ESLint](https://eslint.org/)
 

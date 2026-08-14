@@ -1,6 +1,10 @@
 <script setup>
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import GoLinkedin from '@/components/web/home/header/GoLinkedin.vue'
-const words = ['FRONTEND', 'DEVELOPER']
+
+const { tm } = useI18n()
+const words = computed(() => tm('header.words'))
 </script>
 
 <template>

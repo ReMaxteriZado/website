@@ -1,12 +1,14 @@
 <script setup>
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-const words = ['FRONTEND', 'DEVELOPER']
-const splittedWords = words.map((word) => word.split(''))
+const { tm } = useI18n()
+const words = computed(() => tm('header.words'))
+const splittedWords = computed(() => words.value.map((word) => word.split('')))
 
 onMounted(() => {
   // Split words into letters
-  const letters = words.join('').split('')
+  const letters = words.value.join('').split('')
 
   // Remove duplicates
   const uniqueLetters = [...new Set(letters)]

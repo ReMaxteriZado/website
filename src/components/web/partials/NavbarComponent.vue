@@ -1,19 +1,24 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 const store = useStore()
+const route = useRoute()
+const { t } = useI18n()
 
 const user = computed(() => store.state.user)
 const links = [
-  { name: 'Inicio', hash: '#header', label: 'Home', show: true },
-  { name: 'Inicio', hash: '#about-me', label: 'About me', show: true },
-  { name: 'Inicio', hash: '#my-knowledge', label: 'My Knowledge', show: true },
-  { name: 'Inicio', hash: '#experience', label: 'Experience', show: true },
-  { name: 'Login', label: 'Login', show: !user.value },
-  { name: 'Dashboard', label: 'Dashboard', show: user.value },
+  { name: 'Home', hash: '#header', label: 'nav.home', show: true },
+  { name: 'Home', hash: '#about-me', label: 'nav.about', show: true },
+  { name: 'Home', hash: '#my-knowledge', label: 'nav.knowledge', show: true },
+  { name: 'Home', hash: '#experience', label: 'nav.experience', show: true },
+  { name: 'Login', label: 'nav.login', show: !user.value },
+  { name: 'Dashboard', label: 'nav.dashboard', show: user.value },
 ]
 const toggledMenu = ref(false)
+const homeLocale = computed(() => route.params.locale || 'es')
 
 function toggleMenu() {
   toggledMenu.value = !toggledMenu.value
@@ -44,10 +49,14 @@ function toggleMenu() {
       <template v-for="link in links" :key="link.name">
         <RouterLink
           v-if="link.show"
-          :to="{ name: link.name, hash: link.hash }"
+          :to="{
+            name: link.name,
+            ...(link.name === 'Home' ? { params: { locale: homeLocale } } : {}),
+            hash: link.hash,
+          }"
           class="link flex align-items-center justify-content-center text-center hover-element hover-element-fit px-3 text-primary no-underline text-lg"
         >
-          {{ link.label }}
+          {{ t(link.label) }}
         </RouterLink>
       </template>
     </div>

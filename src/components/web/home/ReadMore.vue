@@ -1,10 +1,12 @@
 <script setup>
 import { computed, watch } from 'vue'
 import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
 
 import ParticlesAnimation from '@/components/web/home/header/ParticlesAnimation.vue'
 
 const store = useStore()
+const { t } = useI18n()
 const readMore = computed(() => store.state.readMore)
 
 function closeReadMore() {
@@ -33,7 +35,7 @@ watch(
       <img :src="readMore.getImageUrl(readMore.image, true)" width="150px" :alt="readMore.label" />
       <div class="my-5" style="white-space: pre-line">{{ readMore.description }}</div>
       <div class="close-read-more hover-element hover-element-without-bg" @click="closeReadMore">
-        <div>Close</div>
+        <div>{{ t('home.close') }}</div>
       </div>
     </div>
   </div>
