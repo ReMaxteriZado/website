@@ -73,7 +73,13 @@ onMounted(() => {
 
 <template>
   <div id="my-github" class="my-github">
-    <img src="@/assets/images/github.svg" alt="GitHub" class="github-logo mb-5" />
+    <a href="https://github.com/ReMaxteriZado/website" target="_blank" rel="noopener noreferrer">
+      <img
+        src="@/assets/images/github.svg"
+        alt="GitHub"
+        class="github-logo hover-element hover-element-without-bg mb-5"
+      />
+    </a>
 
     <div class="codes-container">
       <div

@@ -41,7 +41,7 @@ const skills = [
   },
 ]
 const clonedCardRef = ref(null)
-const randomizedSkills = shuffle([...skills])
+const randomizedSkills = shuffle([...skills, ...skills])
 
 async function handleExpandSkill(event, skill) {
   clonedCardRef.value.expandSkill(event, skill)

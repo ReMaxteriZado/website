@@ -11,7 +11,7 @@ import MyKnowledge from '@/components/web/home/MyKnowledge.vue'
 import ReadMore from '@/components/web/home/ReadMore.vue'
 import Experience from '@/components/web/home/Experience.vue'
 import MyGithub from '@/components/web/home/MyGithub.vue'
-import Footer from '@/components/web/home/Footer.vue'
+import MyFooter from '@/components/web/home/MyFooter.vue'
 
 const store = useStore()
 
@@ -49,7 +49,7 @@ watch(
     <MyGithub />
 
     <!-- Footer -->
-    <Footer />
+    <MyFooter />
   </main>
 </template>
 

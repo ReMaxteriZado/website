@@ -9,6 +9,7 @@ const links = [
   { name: 'Inicio', hash: '#header', label: 'Home', show: true },
   { name: 'Inicio', hash: '#about-me', label: 'About me', show: true },
   { name: 'Inicio', hash: '#my-knowledge', label: 'My Knowledge', show: true },
+  { name: 'Inicio', hash: '#experience', label: 'Experience', show: true },
   { name: 'Login', label: 'Login', show: !user.value },
   { name: 'Dashboard', label: 'Dashboard', show: user.value },
 ]
@@ -20,10 +21,10 @@ function toggleMenu() {
 </script>
 
 <template>
-  <nav class="flex justify-content-between">
+  <nav class="flex justify-content-between md:justify-content-end">
     <div
       @click="toggleMenu()"
-      class="menu hidden md:block border-round-sm"
+      class="menu md:hidden border-round-sm"
       :class="{ opened: toggledMenu }"
     >
       <svg class="hover-element" width="50" height="50" viewBox="0 0 100 100">
@@ -60,6 +61,9 @@ nav {
   right: 1rem;
   left: 1rem;
   z-index: $navbar-z-index;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px 0 rgba(black, 0.1);
+  border-radius: 10px;
 
   .menu {
     background-color: rgba(0, 0, 0, 0.1);

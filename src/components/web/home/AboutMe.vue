@@ -7,6 +7,8 @@ const verticalLineWidth = ref(0)
 function listenTitleHover() {
   const title = document.querySelector('#about-me .about-me-title')
 
+  if (!title) return
+
   title.addEventListener('mouseenter', () => {
     cancelAnimationFrame(rafId)
 
